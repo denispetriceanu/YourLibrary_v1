@@ -112,7 +112,7 @@ public class Book {
     public ArrayList<Book> filter_book(List<Book> list_receive, String txt) {
         ArrayList<Book> list_sort = new ArrayList<>();
         for (int i = 0; i < list_receive.size(); i++) {
-            if (list_receive.get(i).getTitle().contains(txt)) {
+            if (list_receive.get(i).getTitle().toLowerCase().contains(txt.toLowerCase())) {
                 list_sort.add(list_receive.get(i));
             }
 

@@ -5,6 +5,6 @@
     <color name="colorAccent">#2DA8D8</color>
     <color name="colorAccent1">#e86120</color>
     <color name="backgroundPage">#303030</color>
-    <color name="textPrymari">#aaaaaa</color>
+    <color name="textPrimary">#FFF</color>
     <color name="textSecond">#656565</color>
 </resources>

@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_home, container, false);
         // this line two lines is for change color of bottom-menu
         final BottomNavigationView bottomNavigationView;
-        bottomNavigationView = (BottomNavigationView) root.findViewById(R.id.nav_view_home);
+        bottomNavigationView = root.findViewById(R.id.nav_view_home);
 
         final BottomNavigationItemView home = root.findViewById(R.id.navigation_home);
         final BottomNavigationItemView search = root.findViewById(R.id.navigation_search);
