@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,12 +43,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.book_author.setText(mData.get(position).getAuthor());
         String url = mData.get(position).getThumbnail();
         url = addChar(url);
+
         Glide.with(mContext)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.img_book_thumbnail);
 
-        //TODO: in last project you call Book_Activity but now you need to create a fragment and call him
+        // TODO: in last project you call Book_Activity but now you need to create a fragment and call him
+
 //        holder.cardView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -62,19 +63,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 //
 //                mContext.startActivities(new Intent[]{intent});
 //            }
-//
 //        });
-        holder.mRemoveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Book itemLabel = mData.get(position);
-                mData.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, mData.size());
-//                Toast.makeText(mContext,"Removed:" + itemLabel,Toast.LENGTH_SHORT).show();
 
-            }
-        });
+//        holder.mRemoveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Book itemLabel = mData.get(position);
+//                mData.remove(position);
+//                notifyItemRemoved(position);
+//                notifyItemRangeChanged(position, mData.size());
+//                Toast.makeText(mContext,"Removed:" + itemLabel,Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override
@@ -91,16 +91,16 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         TextView book_author;
         ImageView img_book_thumbnail;
         CardView cardView;
-        ImageButton mRemoveButton;
+//        ImageButton mRemoveButton;
 
-        public MyViewHolder(@NonNull View itemView) {
+        private MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tv_book_title = (TextView) itemView.findViewById(R.id.book_title_id);
-            book_author = (TextView) itemView.findViewById(R.id.book_aurhor_id);
-            img_book_thumbnail = (ImageView) itemView.findViewById(R.id.book_img_id);
-            cardView = (CardView) itemView.findViewById(R.id.cardview_id);
-            mRemoveButton = (ImageButton) itemView.findViewById((R.id.ib_remove));
+            tv_book_title = itemView.findViewById(R.id.book_title_id);
+            book_author = itemView.findViewById(R.id.book_aurhor_id);
+            img_book_thumbnail = itemView.findViewById(R.id.book_img_id);
+            cardView = itemView.findViewById(R.id.cardview_id);
+//            mRemoveButton = itemView.findViewById((R.id.ib_remove));
         }
     }
 

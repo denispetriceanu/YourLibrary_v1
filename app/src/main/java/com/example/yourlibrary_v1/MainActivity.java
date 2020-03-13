@@ -1,20 +1,29 @@
 package com.example.yourlibrary_v1;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter;
+import com.example.yourlibrary_v1.ui.home.Fragment_Home_View;
+import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -49,9 +59,45 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+//        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = null;
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            assert searchManager != null;
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+
+                    View root = Fragment_Home_View.getRoot();
+                    ArrayList<Book> good_list_book = Fragment_Home_View.getLstBook();
+                    Context context = Fragment_Home_View.getContextM();
+
+                    RecyclerView recycler_view_book;
+                    recycler_view_book = root.findViewById(R.id.recycler_view_id);
+                    final HomeRecyclerViewAdapter myAdapter = new HomeRecyclerViewAdapter(context, new Book().filter_book(good_list_book, newText));
+                    recycler_view_book.setLayoutManager(new GridLayoutManager(context, 2));
+                    recycler_view_book.setAdapter(myAdapter);
+                    return false;
+                }
+            });
+        }
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

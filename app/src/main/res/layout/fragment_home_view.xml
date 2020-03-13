@@ -1,23 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/backgroundPage"
-    android:padding="8dp">
-
-    <SearchView
-        android:id="@+id/search_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search Here" />
+    android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recylclerview_id"
+        android:id="@+id/recycler_home_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null" />
+
+
+    <!--    <SearchView-->
+    <!--        android:id="@+id/search_id1"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:foreground="@drawable/border"-->
+    <!--        android:iconifiedByDefault="true"-->
+    <!--        android:queryHint="Search Here"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:visibility="visible" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:background="@android:color/transparent" />
 </LinearLayout>
