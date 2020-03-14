@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment_Search_View fragment = new Fragment_Search_View();
+                Fragment_Favorite_View fragment = new Fragment_Favorite_View();
                 fragmentTransaction.add(R.id.nav_host_fragment_home, fragment);
                 fragmentTransaction.commit();
                 // change the color of element when is active
@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment_Profile_View fragment = new Fragment_Profile_View();
+                Fragment_Readed_View fragment = new Fragment_Readed_View();
                 fragmentTransaction.add(R.id.nav_host_fragment_home, fragment);
                 fragmentTransaction.commit();
                 // change the color of element when is active
@@ -68,4 +68,5 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
+
 }

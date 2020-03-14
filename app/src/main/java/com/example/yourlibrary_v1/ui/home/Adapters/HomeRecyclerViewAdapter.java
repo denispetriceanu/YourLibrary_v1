@@ -1,6 +1,7 @@
 package com.example.yourlibrary_v1.ui.home.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.Book;
+import com.example.yourlibrary_v1.Book_Details;
 import com.example.yourlibrary_v1.R;
 
 import java.util.List;
@@ -49,21 +51,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.img_book_thumbnail);
 
-        // TODO: in last project you call Book_Activity but now you need to create a fragment and call him
-
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext, Book_Activity.class);
-//                intent.putExtra("Title", mData.get(position).getTitle());
-//                intent.putExtra("Categories", mData.get(position).getCategory());
-//                intent.putExtra("Description", mData.get(position).getDescription());
-//                System.out.println(mData.get(position).getThumbnail());
-//                intent.putExtra("Thumbnail", addChar(mData.get(position).getThumbnail()));
-//
-//                mContext.startActivities(new Intent[]{intent});
-//            }
-//        });
+        // TODO: pass the id books for download from firebase;
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open new fragment for view more details about book
+                Intent intent = new Intent(mContext, Book_Details.class);
+                mContext.startActivity(intent);
+            }
+        });
 
 //        holder.mRemoveButton.setOnClickListener(new View.OnClickListener() {
 //            @Override

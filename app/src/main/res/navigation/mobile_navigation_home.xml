@@ -2,8 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    android:id="@+id/mobile_navigation_home"
+    app:startDestination="@+id/navigation_home"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -12,14 +13,14 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.yourlibrary_v1.ui.home.Fragment_Search_View"
-        android:label="@string/title_dashboard"
+        android:name="com.example.yourlibrary_v1.ui.home.Fragment_Favorite_View"
+        android:label="@string/title_favorite"
         tools:layout="@layout/fragment_favorite_view" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.yourlibrary_v1.ui.home.Fragment_Profile_View"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_profile_view" />
+        android:name="com.example.yourlibrary_v1.ui.home.Fragment_Readed_View"
+        android:label="@string/title_readed"
+        tools:layout="@layout/fragment_readed_view" />
 
 </navigation>

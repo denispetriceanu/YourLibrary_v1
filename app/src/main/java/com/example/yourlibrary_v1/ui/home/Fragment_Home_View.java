@@ -37,6 +37,7 @@ public class Fragment_Home_View extends Fragment {
     private ArrayList<String> lstCategory;
     private RecyclerView recycler_view_book;
 
+    // this get function we use for search button from toolbar
     public static ArrayList<Book> getLstBook() {
         return listBook;
     }
@@ -119,21 +120,6 @@ public class Fragment_Home_View extends Fragment {
 
                 // make a copy for search box
                 listBook = lstBook;
-//
-//                mySearchView = getActivity().findViewById(R.id.app_bar_search);
-//                mySearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//                    @Override
-//                    public boolean onQueryTextSubmit(String query) {
-//                        return false;
-//                    }
-//
-//                    @Override
-//                    public boolean onQueryTextChange(String newText) {
-//                        final HomeRecyclerViewAdapter myAdapter = new HomeRecyclerViewAdapter(getContext(), new Book().filter_book(lstBook, newText));
-//                        Fragment_Home_View.this.recycler_view_book.setAdapter(myAdapter);
-//                        return false;
-//                    }
-//                });
             }
 
             @Override

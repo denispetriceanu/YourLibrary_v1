@@ -13,7 +13,7 @@
 
     <string name="home_second">Home Second</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Favorites</string>
-    <string name="title_notifications">Profile</string>
+    <string name="title_favorite">Favorites</string>
+    <string name="title_readed">Readed</string>
 
 </resources>
