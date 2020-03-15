@@ -1,12 +1,12 @@
 package com.example.yourlibrary_v1;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -16,14 +16,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter;
-import com.example.yourlibrary_v1.ui.home.Fragment_Home_View;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -57,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main, menu);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main, menu);
 
@@ -74,29 +69,28 @@ public class MainActivity extends AppCompatActivity {
         if (searchView != null) {
             assert searchManager != null;
             searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-
-                    View root = Fragment_Home_View.getRoot();
-                    ArrayList<Book> good_list_book = Fragment_Home_View.getLstBook();
-                    Context context = Fragment_Home_View.getContextM();
-
-                    RecyclerView recycler_view_book;
-                    recycler_view_book = root.findViewById(R.id.recycler_view_id);
-                    final HomeRecyclerViewAdapter myAdapter = new HomeRecyclerViewAdapter(context, new Book().filter_book(good_list_book, newText));
-                    recycler_view_book.setLayoutManager(new GridLayoutManager(context, 2));
-                    recycler_view_book.setAdapter(myAdapter);
-                    return false;
-                }
-            });
+            searchView.setBackgroundColor(R.color.colorAccent);
+//            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//                @Override
+//                public boolean onQueryTextSubmit(String query) {
+//                    return false;
+//                }
+//
+//                @Override
+//                public boolean onQueryTextChange(String newText) {
+//                    View root = Fragment_Home_View.getRoot();
+//                    ArrayList<Book> good_list_book = Fragment_Home_View.getLstBook();
+//                    Context context = Fragment_Home_View.getContextM();
+//
+//                    RecyclerView recycler_view_book;
+//                    recycler_view_book = root.findViewById(R.id.recycler_view_id);
+//                    final HomeRecyclerViewAdapter myAdapter = new HomeRecyclerViewAdapter(context, new Book().filter_book(good_list_book, newText));
+//                    recycler_view_book.setLayoutManager(new GridLayoutManager(context, 2));
+//                    recycler_view_book.setAdapter(myAdapter);
+//                    return false;
+//                }
+//            });
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -106,4 +100,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 }

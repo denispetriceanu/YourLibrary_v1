@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Book_Details">
+            <!--That set for this activity arrow back-->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.yourlibrary_v1.MainActivity" />
+        </activity>
         <activity android:name=".Forgotpass"></activity>
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />
@@ -26,10 +32,8 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/search" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

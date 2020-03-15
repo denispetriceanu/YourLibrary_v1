@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment;
 import com.example.yourlibrary_v1.R;
 
 
-public class Fragment_Search_View extends Fragment {
+public class Fragment_Readed_View extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_favorite_view, container, false);
+        final View root = inflater.inflate(R.layout.fragment_readed_view, container, false);
 
         return root;
     }
 }
+

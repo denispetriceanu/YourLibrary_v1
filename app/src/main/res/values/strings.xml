@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YourLibrary_v1</string>
+    <string name="app_name">YourLibrary V1</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -13,8 +13,8 @@
 
     <string name="home_second">Home Second</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Favorites</string>
-    <string name="title_notifications">Profile</string>
+    <string name="title_favorite">Favorites</string>
+    <string name="title_readed">Readed</string>
 
 
     <string name="hello_world">Hello world!</string>
