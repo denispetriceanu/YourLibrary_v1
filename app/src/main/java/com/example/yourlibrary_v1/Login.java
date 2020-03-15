@@ -68,28 +68,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
 //    public static void setShakeAnimation(Animation shakeAnimation) {
 //        Login.shakeAnimation = shakeAnimation;
 //        shakeAnimation=AnimationUtils.loadAnimation(R.anim.shake);
-//    }
-
-    // Setting text selector over textviews
-    @SuppressLint("ResourceType")
-    XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
-  {
-        ColorStateList csl = null;
-        try {
-            csl = ColorStateList.createFromXml(getResources(),
-                    xrp);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (XmlPullParserException ex) {
-            ex.printStackTrace();
-        }
-
-        forgotPassword.setTextColor(csl);
-        show_hide_password.setTextColor(csl);
-        signUp.setTextColor(csl);
-    }
-
-
+//
     // Set Listeners
     private void setListeners() {
         loginButton.setOnClickListener(this);
@@ -148,16 +127,10 @@ public class Login extends AppCompatActivity implements OnClickListener {
     }
     // Check Validation before login
     private void checkValidation() {
-
         String getEmailId = emailid.getText().toString();
         String getPassword = password.getText().toString();
-
-
         Pattern p = Pattern.compile(Utils.regEx);
-
         Matcher m = p.matcher(getEmailId);
-
-
         if (getEmailId.equals("") || getEmailId.length() == 0
                 || getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
