@@ -30,12 +30,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         this.mData = mData;
     }
 
+    public static String addChar(String str) {
+        return str.substring(0, 4) + "s" + str.substring(4);
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
-        view = mInflater.inflate(R.layout.cardview_item_book, parent, false);
+        View view = mInflater.inflate(R.layout.cardview_item_book, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -51,26 +54,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.img_book_thumbnail);
 
-        // TODO: pass the id books for download from firebase;
+        // TODO: send correct id book
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String id = "01";
                 // open new fragment for view more details about book
                 Intent intent = new Intent(mContext, Book_Details.class);
+                intent.putExtra("book_id", id);
                 mContext.startActivity(intent);
             }
         });
-
-//        holder.mRemoveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Book itemLabel = mData.get(position);
-//                mData.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, mData.size());
-//                Toast.makeText(mContext,"Removed:" + itemLabel,Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     @Override
@@ -78,25 +72,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         return mData.size();
     }
 
-    private String addChar(String str) {
-        return str.substring(0, 4) + "s" + str.substring(4);
-    }
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_book_title;
         TextView book_author;
         ImageView img_book_thumbnail;
         CardView cardView;
-//        ImageButton mRemoveButton;
 
         private MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tv_book_title = itemView.findViewById(R.id.book_title_id);
             book_author = itemView.findViewById(R.id.book_aurhor_id);
             img_book_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_id);
-//            mRemoveButton = itemView.findViewById((R.id.ib_remove));
         }
     }
 

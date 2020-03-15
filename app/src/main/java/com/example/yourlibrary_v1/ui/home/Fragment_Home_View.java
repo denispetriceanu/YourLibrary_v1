@@ -1,13 +1,17 @@
 package com.example.yourlibrary_v1.ui.home;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,36 +29,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 public class Fragment_Home_View extends Fragment {
-    private static ArrayList<Book> listBook;
-    private static View root_copy;
-    private static Context context;
     private ArrayList<Book> lstBook;
     private ArrayList<String> lstCategory;
     private RecyclerView recycler_view_book;
-
-    // this get function we use for search button from toolbar
-    public static ArrayList<Book> getLstBook() {
-        return listBook;
-    }
-
-    public static View getRoot() {
-        return root_copy;
-    }
-
-    public static Context getContextM() {
-        return context;
-    }
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_home_view, container, false);
-        root_copy = root;
-        context = getContext();
+        root = inflater.inflate(R.layout.fragment_home_view, container, false);
         lstBook = new ArrayList<>();
         lstCategory = new ArrayList<>();
         // we add first category
@@ -117,9 +105,6 @@ public class Fragment_Home_View extends Fragment {
                 ButtonViewAdapterHome adapter = new ButtonViewAdapterHome(getContext(), lstCategory, lstBook, root);
                 recycler_view_category.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 recycler_view_category.setAdapter(adapter);
-
-                // make a copy for search box
-                listBook = lstBook;
             }
 
             @Override
@@ -129,5 +114,40 @@ public class Fragment_Home_View extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        assert searchView != null;
+        assert searchManager != null;
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recycler_view_book = root.findViewById(R.id.recycler_view_id);
+                final HomeRecyclerViewAdapter myAdapter = new HomeRecyclerViewAdapter(getContext(), new Book().filter_book(lstBook, newText));
+                recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                recycler_view_book.setAdapter(myAdapter);
+                return false;
+            }
+        });
     }
 }
