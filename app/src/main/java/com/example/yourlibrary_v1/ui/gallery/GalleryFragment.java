@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.yourlibrary_v1.Login;
 import com.example.yourlibrary_v1.R;
 
 public class GalleryFragment extends Fragment {
@@ -18,14 +19,14 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-//        button= (Button) root.findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent in = new Intent(getActivity(),Login.class);
-//                startActivity(in);
-//            }
-//        });
+        button= (Button) root.findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), Login.class);
+                startActivity(in);
+            }
+        });
 
         return root;
     }
