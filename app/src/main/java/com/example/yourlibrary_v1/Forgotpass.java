@@ -1,28 +1,20 @@
 package com.example.yourlibrary_v1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.Bundle;
-
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.example.yourlibrary_v1.R;
-
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Forgotpass extends AppCompatActivity implements OnClickListener {
     private static View view;
@@ -37,10 +29,10 @@ public class Forgotpass extends AppCompatActivity implements OnClickListener {
     }
 
     private void initViews() {
-        emailId = (EditText) view.findViewById(R.id.registered_emailid);
-        submit = (TextView) view.findViewById(R.id.forgot_button);
-        back = (TextView) view.findViewById(R.id.backToLoginBtn);
-        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        emailId = view.findViewById(R.id.registered_emailid);
+        submit = view.findViewById(R.id.forgot_button);
+        back = view.findViewById(R.id.backToLoginBtn);
+        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
