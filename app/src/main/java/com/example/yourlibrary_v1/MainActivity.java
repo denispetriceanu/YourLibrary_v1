@@ -3,10 +3,13 @@ package com.example.yourlibrary_v1;
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -22,6 +25,9 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    // use for access image login
+    private NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // we use that for start login activity
+        navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(0);
+        ImageView login = hView.findViewById(R.id.image_login_log_out);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+            }
+        });
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -70,26 +88,6 @@ public class MainActivity extends AppCompatActivity {
             assert searchManager != null;
             searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
             searchView.setBackgroundColor(R.color.colorAccent);
-//            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//                @Override
-//                public boolean onQueryTextSubmit(String query) {
-//                    return false;
-//                }
-//
-//                @Override
-//                public boolean onQueryTextChange(String newText) {
-//                    View root = Fragment_Home_View.getRoot();
-//                    ArrayList<Book> good_list_book = Fragment_Home_View.getLstBook();
-//                    Context context = Fragment_Home_View.getContextM();
-//
-//                    RecyclerView recycler_view_book;
-//                    recycler_view_book = root.findViewById(R.id.recycler_view_id);
-//                    final HomeRecyclerViewAdapter myAdapter = new HomeRecyclerViewAdapter(context, new Book().filter_book(good_list_book, newText));
-//                    recycler_view_book.setLayoutManager(new GridLayoutManager(context, 2));
-//                    recycler_view_book.setAdapter(myAdapter);
-//                    return false;
-//                }
-//            });
         }
         return super.onCreateOptionsMenu(menu);
     }

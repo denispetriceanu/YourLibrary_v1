@@ -1,6 +1,5 @@
 package com.example.yourlibrary_v1;
-import android.annotation.SuppressLint;
-import android.app.Activity;
+
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -9,18 +8,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
-
     private  View view;
     private  EditText fullName, emailId, mobileNumber, location,
             password, confirmPassword;
