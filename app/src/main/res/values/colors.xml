@@ -7,4 +7,10 @@
     <color name="backgroundPage">#303030</color>
     <color name="textPrimary">#FFF</color>
     <color name="textSecond">#656565</color>
+
+    <color name="background_color">#009688</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white_greyish">#EEEEEE</color>
+    <color name="button_selectorcolor">#9E9E9E</color>
 </resources>
