@@ -1,28 +1,21 @@
 package com.example.yourlibrary_v1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.example.yourlibrary_v1.R;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,17 +34,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void initViews() {
-        fullName = (EditText) view.findViewById(R.id.fullName);
-        emailId = (EditText) view.findViewById(R.id.userEmailId);
-        mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
-        location = (EditText) view.findViewById(R.id.location);
-        password = (EditText) view.findViewById(R.id.password);
-        confirmPassword = (EditText) view.findViewById(R.id.confirmPassword);
-        signUpButton = (Button) view.findViewById(R.id.signUpBtn);
-        login = (TextView) view.findViewById(R.id.already_user);
-        terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
+        fullName = view.findViewById(R.id.fullName);
+        emailId = view.findViewById(R.id.userEmailId);
+        mobileNumber = view.findViewById(R.id.mobileNumber);
+        location = view.findViewById(R.id.location);
+        password = view.findViewById(R.id.password);
+        confirmPassword = view.findViewById(R.id.confirmPassword);
+        signUpButton = view.findViewById(R.id.signUpBtn);
+        login = view.findViewById(R.id.already_user);
+        terms_conditions = view.findViewById(R.id.terms_conditions);
 
-        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
