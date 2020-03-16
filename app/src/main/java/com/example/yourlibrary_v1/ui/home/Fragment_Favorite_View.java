@@ -111,9 +111,9 @@ public class Fragment_Favorite_View extends Fragment {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String read) {
                 recycler_view_book = root.findViewById(R.id.recycler_view_fav_id);
-                final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), new Book().filter_book(lstBook, newText), "fav");
+                final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), new Book().filter_book(lstBook, read), "fav");
                 context = getContext();
                 recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 recycler_view_book.setAdapter(myAdapter);

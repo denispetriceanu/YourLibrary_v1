@@ -19,16 +19,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.yourlibrary_v1.More.CustomToast;
 import com.example.yourlibrary_v1.More.Utils;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Login extends AppCompatActivity implements OnClickListener {
+public class login extends AppCompatActivity implements OnClickListener {
     EditText email_id, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // initialize this var here because we need to use in show password and in get data
         email_id = findViewById(R.id.login_emailid);
@@ -57,7 +61,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
         forgotPassword.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Login.this, Forgotpass.class);
+                Intent intent = new Intent(login.this, reset_pass.class);
                 startActivity(intent);
             }
         });
@@ -68,7 +72,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Login().checkValidation(view, getApplicationContext(), email_id.getText().toString(), password.getText().toString());
+                new login().checkValidation(view, getApplicationContext(), email_id.getText().toString(), password.getText().toString());
             }
         });
 
@@ -77,9 +81,10 @@ public class Login extends AppCompatActivity implements OnClickListener {
         signUp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, SignUp.class));
+                startActivity(new Intent(login.this, register.class));
             }
         });
+
     }
 
     @Override
@@ -111,4 +116,11 @@ public class Login extends AppCompatActivity implements OnClickListener {
             Toast.makeText(context, "Login.", Toast.LENGTH_SHORT)
                     .show();
     }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
 }

@@ -16,9 +16,9 @@
                 android:value="com.example.yourlibrary_v1.MainActivity" />
         </activity>
 
-        <activity android:name=".Forgotpass" />
-        <activity android:name=".SignUp" />
-        <activity android:name=".Login" />
+        <activity android:name=".reset_pass" />
+        <activity android:name=".register" />
+        <activity android:name=".login" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

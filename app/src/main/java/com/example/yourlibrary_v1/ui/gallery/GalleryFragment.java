@@ -10,7 +10,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.yourlibrary_v1.Login;
+import com.example.yourlibrary_v1.login;
 import com.example.yourlibrary_v1.R;
 
 public class GalleryFragment extends Fragment {
@@ -23,7 +23,7 @@ public class GalleryFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getActivity(), Login.class);
+                Intent in = new Intent(getActivity(), login.class);
                 startActivity(in);
             }
         });

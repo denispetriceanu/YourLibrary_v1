@@ -1,7 +1,5 @@
 package com.example.yourlibrary_v1;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -9,17 +7,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
-public class Forgotpass extends AppCompatActivity implements OnClickListener {
+public class reset_pass extends AppCompatActivity implements OnClickListener {
     private View view;
 
     private EditText emailId;
@@ -28,11 +24,15 @@ public class Forgotpass extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgotpass);
+        setContentView(R.layout.activity_reset_pass);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Reset_pass");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         Bundle bundle = getIntent().getExtras();
         emailId = findViewById(R.id.login_emailid);
         submit = findViewById(R.id.forgot_button);
-        back = findViewById(R.id.backToLoginBtn);
         XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
 
         {
@@ -55,9 +55,9 @@ public class Forgotpass extends AppCompatActivity implements OnClickListener {
     private void initViews() {
         emailId = view.findViewById(R.id.registered_emailid);
         submit = view.findViewById(R.id.forgot_button);
-        back = view.findViewById(R.id.backToLoginBtn);
+
     }
-}
+
 //        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
 //        try {
 //            ColorStateList csl = ColorStateList.createFromXml(getResources(),
@@ -122,3 +122,9 @@ public class Forgotpass extends AppCompatActivity implements OnClickListener {
 //                    Toast.LENGTH_SHORT).show();
 //    }
 //}
+@Override
+public boolean onSupportNavigateUp() {
+    onBackPressed();
+    return true;
+}
+}

@@ -4,14 +4,14 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="@color/cardview_dark_background">
+    android:background="@color/colorPrimaryDark">
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/signUp"
-        android:textColor="@color/white_greyish"
+        android:textColor="@color/nav_color"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -143,7 +143,7 @@
         android:id="@+id/terms_conditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="15dp"
         android:text="@string/terms_conditions"
         android:textColor="@color/white"
         android:textSize="14sp" />
@@ -152,11 +152,11 @@
         android:id="@+id/signUpBtn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/loginbutton_selector"
         android:padding="3dp"
         android:text="@string/signUp"
-        android:textColor="@color/background_color"
+        android:textColor="@color/nav_color"
         android:textSize="17sp"
         android:textStyle="bold" />
 
@@ -165,7 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/already_user"
