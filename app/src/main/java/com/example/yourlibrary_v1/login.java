@@ -14,17 +14,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourlibrary_v1.More.CustomToast;
 import com.example.yourlibrary_v1.More.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class login extends AppCompatActivity implements OnClickListener {
+public class login extends AppCompatActivity {
     EditText email_id, password;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +73,24 @@ public class login extends AppCompatActivity implements OnClickListener {
         });
 
         // login button
-        // TODO: here we put the code for send to the firebase if user exists in data base
         Button loginButton = findViewById(R.id.loginBtn);
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                new login().checkValidation(view, getApplicationContext(), email_id.getText().toString(), password.getText().toString());
+                if (new login().checkValidation(view, getApplicationContext(), email_id.getText().toString(), password.getText().toString())) {
+                    mAuth = FirebaseAuth.getInstance();
+                    mAuth.signInWithEmailAndPassword(email_id.getText().toString(), password.getText().toString()).addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            System.out.println("Task: " + task.toString());
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Error: " + task, Toast.LENGTH_LONG).show();
+                            } else {
+                                startActivity(new Intent(login.this, MainActivity.class));
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -87,20 +105,8 @@ public class login extends AppCompatActivity implements OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View view) {
-        System.out.println("Test");
-    }
-
-//    public static void setShakeAnimation(Animation shakeAnimation) {
-//        Login.shakeAnimation = shakeAnimation;
-//        shakeAnimation= AnimationUtils.loadAnimation(R.anim.shake);
-//    }
-
-
     // Check Validation before login
-    private void checkValidation(View view, Context context, String email, String pass) {
-
+    private boolean checkValidation(View view, Context context, String email, String pass) {
         Pattern p = Pattern.compile(Utils.regEx);
         Matcher m = p.matcher(email);
 
@@ -108,14 +114,16 @@ public class login extends AppCompatActivity implements OnClickListener {
                 || pass.equals("") || pass.length() == 0) {
             new CustomToast().Show_Toast(context, view,
                     "Enter both .");
+            return false;
 
-        } else if (!m.find())
+        } else if (!m.find()) {
             new CustomToast().Show_Toast(context, view,
                     "Your Email is Invalid.");
-        else
-            Toast.makeText(context, "Login.", Toast.LENGTH_SHORT)
-                    .show();
+            return false;
+        } else
+            return true;
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

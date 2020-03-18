@@ -20,13 +20,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.yourlibrary_v1.More.Utils;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    // use for access image login
-    private NavigationView navigationView;
+    private FirebaseAuth mAuth;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        new Utils().updateUI(currentUser, getBaseContext());
+    }
 
 
     @Override
@@ -37,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // we use that for start login activity
-        navigationView = findViewById(R.id.nav_view);
-        View hView = navigationView.getHeaderView(0);
+        // use for access image login
+        NavigationView navigationView1 = findViewById(R.id.nav_view);
+        View hView = navigationView1.getHeaderView(0);
         ImageView login = hView.findViewById(R.id.image_login_log_out);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
