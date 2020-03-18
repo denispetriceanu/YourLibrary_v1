@@ -79,7 +79,6 @@ public class Fragment_Home_View extends Fragment {
                     }
 
                     // generate the list of categories
-                    System.out.println("Category:" + category);
                     assert category != null;
                     category = category.replace("]", "").replace("[", "").replace("\"", "");
                     if (category.equals("-")) category = "Undefined";
