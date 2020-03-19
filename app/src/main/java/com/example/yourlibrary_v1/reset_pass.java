@@ -77,10 +77,9 @@ public class reset_pass extends AppCompatActivity {
 
     private boolean submitButtonTask(Context context) {
         String getEmailId = emailId.getText().toString();
-        // Pattern for email id validation
-        Pattern p = Pattern.compile(Utils.regEx);
-        // Match the pattern
-        Matcher m = p.matcher(getEmailId);
+
+        Pattern p = Pattern.compile(Utils.regEx);// Pattern for email id validation
+        Matcher m = p.matcher(getEmailId);// Match the pattern
 
         // First check if email id is not null else show error toast
         if (getEmailId.equals("") || getEmailId.length() == 0) {
