@@ -14,11 +14,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.yourlibrary_v1.More.CustomToast;
 import com.example.yourlibrary_v1.More.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -44,7 +44,7 @@ public class reset_pass extends AppCompatActivity {
         submit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (submitButtonTask(view, getApplicationContext())) {
+                if (submitButtonTask(getApplicationContext())) {
                     mAuth = FirebaseAuth.getInstance();
                     mAuth.sendPasswordResetEmail(emailId.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -52,9 +52,9 @@ public class reset_pass extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Intent intent = new Intent(reset_pass.this, login.class);
                                 startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Your password will be reset", Toast.LENGTH_LONG).show();
+                                DynamicToast.makeSuccess(getApplicationContext(), "Your password will be reset", Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                                DynamicToast.makeError(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -75,7 +75,7 @@ public class reset_pass extends AppCompatActivity {
         }
     }
 
-    private boolean submitButtonTask(View view, Context context) {
+    private boolean submitButtonTask(Context context) {
         String getEmailId = emailId.getText().toString();
         // Pattern for email id validation
         Pattern p = Pattern.compile(Utils.regEx);
@@ -84,14 +84,12 @@ public class reset_pass extends AppCompatActivity {
 
         // First check if email id is not null else show error toast
         if (getEmailId.equals("") || getEmailId.length() == 0) {
-            new CustomToast().Show_Toast(context, view,
-                    "Please enter your Email Id.");
+            DynamicToast.makeError(context, "Please enter your Email.").show();
             return false;
         }
         // Check if email id is valid or not
         else if (!m.find()) {
-            new CustomToast().Show_Toast(context, view,
-                    "Your Email Id is Invalid.");
+            DynamicToast.makeError(context, "Your Email is Invalid.").show();
             return false;
         } else
             return true;

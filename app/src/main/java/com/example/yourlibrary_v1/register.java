@@ -14,12 +14,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yourlibrary_v1.More.User_model;
 import com.example.yourlibrary_v1.More.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -96,42 +100,34 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         // Pattern match for email id
         Pattern p = Pattern.compile(Utils.regEx);
         Matcher m = p.matcher(getEmailId);
-        if (password.length() > 6)
-            createAccount(getEmailId, getPassword);
-        else
-            Toast.makeText(getBaseContext(), "Your password is to short", Toast.LENGTH_LONG).show();
 
-        // Check if all strings are null or not
-//        if (getFullName.equals("") || getFullName.length() == 0
-//                || getEmailId.equals("") || getEmailId.length() == 0
-//                || getMobileNumber.equals("") || getMobileNumber.length() == 0
-//                || getLocation.equals("") || getLocation.length() == 0
-//                || getPassword.equals("") || getPassword.length() == 0
-//                || getConfirmPassword.equals("") || getConfirmPassword.length() == 0
-//                || terms.length() == 0)
-//
+        //Check if all strings are null or not
+        if (getFullName.equals("") || getFullName.length() == 0
+                || getEmailId.equals("") || getEmailId.length() == 0
+                || getMobileNumber.equals("") || getMobileNumber.length() == 0
+                || getLocation.equals("") || getLocation.length() == 0
+                || getPassword.equals("") || getPassword.length() == 0
+                || getConfirmPassword.equals("") || getConfirmPassword.length() == 0
+                || terms.length() == 0)
+            DynamicToast.makeError(context, "All fields are required.").show();
 //            new CustomToast().Show_Toast(context, view,
 //                    "All fields are required.");
-//            // Check if email id valid or not
-//        else if (!m.find())
-//            new CustomToast().Show_Toast(context, view,
-//                    "Your Email Id is Invalid.");
-//            // Check if both password should be equal
-//        else if (!getConfirmPassword.equals(getPassword))
-//            new CustomToast().Show_Toast(context, view,
-//                    "Both password doesn't match.");
-//            // Make sure user should check Terms and Conditions checkbox
-//        else if (!terms_conditions.isChecked())
-//            new CustomToast().Show_Toast(context, view,
-//                    "Please select Terms and Conditions.");
-//            // Else do sign up or do your stuff
-//        else {
-//            createAccount(getEmailId, getPassword);
-////            Toast.makeText(context, "Do SignUp.", Toast.LENGTH_SHORT)
-////                    .show();
-//        }
-
-        // here in this else we must call the request to firebase for create user
+            // Check if email id valid or not
+        else if (!m.find())
+            DynamicToast.makeError(context,
+                    "Your Email Id is Invalid.").show();
+            // Check if both password should be equal
+        else if (getPassword.length() <= 6)
+            DynamicToast.makeError(context, "Your password is to short.").show();
+        else if (!getConfirmPassword.equals(getPassword))
+            DynamicToast.makeError(context, "Both password doesn't match.").show();
+            // Make sure user should check Terms and Conditions checkbox
+        else if (!terms_conditions.isChecked())
+            DynamicToast.makeError(context, "Please select Terms and Conditions.").show();
+            // Else do sign up or do your stuff
+        else {
+            createAccount(getEmailId, getPassword);
+        }
     }
 
     @Override
@@ -145,6 +141,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         System.out.println(currentUser);
+
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -153,12 +150,32 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                             FirebaseUser user = mAuth.getCurrentUser();
                             new Utils().updateUI(user, getBaseContext());
                             startActivity(new Intent(register.this, login.class));
+                            assert user != null;
+                            writeUserDetails(user.getUid());
+                            reset_form();
                         } else {
                             System.out.println(task.toString());
-                            Toast.makeText(getBaseContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            DynamicToast.makeError(getBaseContext(), "Can't make account.",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+    }
+
+    private void writeUserDetails(String id_user) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users");
+        myRef.child(id_user).setValue(new User_model(fullName.getText().toString(), emailId.getText().toString(),
+                mobileNumber.getText().toString(), location.getText().toString()));
+    }
+
+    private void reset_form() {
+        fullName.setText("");
+        emailId.setText("");
+        location.setText("");
+        mobileNumber.setText("");
+        password.setText("");
+        confirmPassword.setText("");
+        terms_conditions.setChecked(false);
     }
 }

@@ -17,12 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.yourlibrary_v1.More.CustomToast;
 import com.example.yourlibrary_v1.More.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -83,10 +83,10 @@ public class login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             System.out.println("Task: " + task.toString());
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Error: " + task, Toast.LENGTH_LONG).show();
-                            } else {
+                            if (task.isSuccessful()) {
                                 startActivity(new Intent(login.this, MainActivity.class));
+                            } else {
+                                DynamicToast.makeError(getApplicationContext(), "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -112,13 +112,11 @@ public class login extends AppCompatActivity {
 
         if (email.equals("") || email.length() == 0
                 || pass.equals("") || pass.length() == 0) {
-            new CustomToast().Show_Toast(context, view,
-                    "Enter both .");
+            DynamicToast.makeError(context, "Enter both .").show();
             return false;
 
         } else if (!m.find()) {
-            new CustomToast().Show_Toast(context, view,
-                    "Your Email is Invalid.");
+            DynamicToast.makeError(context, "Your Email is Invalid.").show();
             return false;
         } else
             return true;
