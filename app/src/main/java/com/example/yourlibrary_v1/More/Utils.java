@@ -3,9 +3,8 @@ package com.example.yourlibrary_v1.More;
 import android.content.Context;
 import android.widget.Toast;
 
-
-
-import com.google.firebase.auth.FireabaseUser;
+import com.google.firebase.auth.FirebaseUser;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class Utils {
     public static final String regEx = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -13,7 +12,7 @@ public class Utils {
     public static final String signUp_activity = "SignUp_Activity";
     public static final String forgotPassword_activity = "ForgotPassword_Activity";
 
-    public void updateUI(FirebaseDatabase currentUser, Context context) {
+    public void updateUI(FirebaseUser currentUser, Context context) {
         if (currentUser == null) {
             Toast.makeText(context, "Nu esti conectat", Toast.LENGTH_LONG).show();
         } else {

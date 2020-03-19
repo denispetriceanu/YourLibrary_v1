@@ -77,7 +77,7 @@ public class login extends AppCompatActivity {
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (new login().checkValidation(view, getApplicationContext(), email_id.getText().toString(), password.getText().toString())) {
+                if (new login().checkValidation(getApplicationContext(), email_id.getText().toString(), password.getText().toString())) {
                     mAuth = FirebaseAuth.getInstance();
                     mAuth.signInWithEmailAndPassword(email_id.getText().toString(), password.getText().toString()).addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -85,6 +85,7 @@ public class login extends AppCompatActivity {
                             System.out.println("Task: " + task.toString());
                             if (task.isSuccessful()) {
                                 startActivity(new Intent(login.this, MainActivity.class));
+                                DynamicToast.makeSuccess(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                             } else {
                                 DynamicToast.makeError(getApplicationContext(), "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                             }
@@ -106,7 +107,7 @@ public class login extends AppCompatActivity {
     }
 
     // Check Validation before login
-    private boolean checkValidation(View view, Context context, String email, String pass) {
+    private boolean checkValidation(Context context, String email, String pass) {
         Pattern p = Pattern.compile(Utils.regEx);
         Matcher m = p.matcher(email);
 

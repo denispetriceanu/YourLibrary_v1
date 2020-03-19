@@ -147,14 +147,18 @@ public class register extends AppCompatActivity implements View.OnClickListener 
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            new Utils().updateUI(user, getBaseContext());
-                            startActivity(new Intent(register.this, login.class));
+
                             assert user != null;
                             writeUserDetails(user.getUid());
+
+                            startActivity(new Intent(register.this, login.class));
+                            DynamicToast.makeSuccess(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+
+                            // set al text null
                             reset_form();
                         } else {
                             System.out.println(task.toString());
-                            DynamicToast.makeError(getBaseContext(), "Can't make account.",
+                            DynamicToast.makeError(getBaseContext(), Objects.requireNonNull(task.getException()).getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
