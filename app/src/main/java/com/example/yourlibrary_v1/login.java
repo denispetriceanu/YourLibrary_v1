@@ -85,7 +85,7 @@ public class login extends AppCompatActivity {
                             System.out.println("Task: " + task.toString());
                             if (task.isSuccessful()) {
                                 startActivity(new Intent(login.this, MainActivity.class));
-                                DynamicToast.makeSuccess(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                                DynamicToast.makeSuccess(getApplicationContext(), "You are login with success!", Toast.LENGTH_LONG).show();
                             } else {
                                 DynamicToast.makeError(getApplicationContext(), "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                             }

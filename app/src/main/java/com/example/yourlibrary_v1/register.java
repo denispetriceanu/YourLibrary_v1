@@ -147,7 +147,7 @@ public class register extends AppCompatActivity {
                             writeUserDetails(user.getUid());
 
                             startActivity(new Intent(register.this, login.class));
-                            DynamicToast.makeSuccess(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            DynamicToast.makeSuccess(getApplicationContext(), "Account created with success!", Toast.LENGTH_LONG).show();
 
                             // set al text null
                             reset_form();
