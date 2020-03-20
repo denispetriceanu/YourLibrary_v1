@@ -58,7 +58,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = "01";
+                String id = "23992";
                 // open new fragment for view more details about book
                 Intent intent = new Intent(mContext, Book_Details.class);
                 intent.putExtra("book_id", id);

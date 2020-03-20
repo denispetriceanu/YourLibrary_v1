@@ -4,13 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-    private String description, thumbnail, category, title, author, data_publisher;
+    private String description;
+    private String thumbnail;
+    private String category;
+    private String title;
+    private String author;
+    private String data_publisher;
+
+    public String getIdBook() {
+        return idBook;
+    }
+
+    private String idBook;
     private int info_link, nr_rating, page_count, rating, image;
 
-    public Book(String title, String category, String description, String thumbnail, String author) {
+    // this constructor we use for fragment home view and rest of the adapters
+
+    public Book(String title, String category, String id_book, String thumbnail, String author) {
         this.title = title;
         this.category = category;
-        this.description = description;
+        idBook = id_book;
         this.thumbnail = thumbnail;
         this.author = author;
     }

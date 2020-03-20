@@ -57,10 +57,11 @@ public class Fragment_Home_View extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    System.out.println(dataSnapshot.getRef().getKey());
                     String image = (String) messageSnapshot.child("thumbnail").getValue();
                     String title = (String) messageSnapshot.child("title").getValue();
                     String category = (String) messageSnapshot.child("categories").getValue();
-                    String description = (String) messageSnapshot.child("description").getValue();
+                    String id_book = (String) messageSnapshot.child("description").getValue();
                     String author = (String) messageSnapshot.child("author").getValue();
                     assert author != null;
                     // remove " and []
@@ -86,7 +87,7 @@ public class Fragment_Home_View extends Fragment {
                     if (!lstCategory.contains(category)) lstCategory.add(category);
 
                     // generate the element book and add to object
-                    Book ob = new Book(title, category, description, image, author);
+                    Book ob = new Book(title, category, id_book, image, author);
                     lstBook.add(ob);
                 }
 
