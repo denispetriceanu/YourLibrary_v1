@@ -4,13 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-    private String description, thumbnail, category, title, author, data_publisher;
-    private int info_link, nr_rating, page_count, rating, image;
+    private String description;
+    private String thumbnail;
+    private String category;
+    private String title;
+    private String author;
+    private String data_publisher;
+    private String id_book, info_link;
+    private long nr_rating;
+    private long page_count;
+    private long rating;
+    private String image;
 
-    public Book(String title, String category, String description, String thumbnail, String author) {
+    public Book(String title, String category, String book_id, String thumbnail, String author) {
         this.title = title;
         this.category = category;
-        this.description = description;
+        id_book = book_id;
         this.thumbnail = thumbnail;
         this.author = author;
     }
@@ -18,37 +27,54 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String category, String description, String thumbnail, int info_link, int nr_rating, int page_count, int rating, int image, String author, String data_publisher) {
-        this.title = title;
-        this.category = category;
+    public Book(String description, String thumbnail, String category, String title, String author, String data_publisher, String info_link, int nr_rating, int page_count, int rating, String image) {
         this.description = description;
         this.thumbnail = thumbnail;
+        this.category = category;
+        this.title = title;
+        this.author = author;
+        this.data_publisher = data_publisher;
         this.info_link = info_link;
         this.nr_rating = nr_rating;
         this.page_count = page_count;
         this.rating = rating;
         this.image = image;
-        this.author = author;
-        this.data_publisher = data_publisher;
+    }
+    //    public Book(String title, String category, String description, String thumbnail, int info_link, int nr_rating, int page_count, int rating, int image, String author, String data_publisher) {
+//        this.title = title;
+//        this.category = category;
+//        this.description = description;
+//        this.thumbnail = thumbnail;
+//        this.info_link = info_link;
+//        this.nr_rating = nr_rating;
+//        this.page_count = page_count;
+//        this.rating = rating;
+//        this.image = image;
+//        this.author = author;
+//        this.data_publisher = data_publisher;
+//    }
+
+    public String getId_book() {
+        return id_book;
     }
 
-    public int getInfo_link() {
+    public String getInfo_link() {
         return info_link;
     }
 
-    public int getNr_rating() {
+    public long getNr_rating() {
         return nr_rating;
     }
 
-    public int getPage_count() {
+    public long getPage_count() {
         return page_count;
     }
 
-    public int getRating() {
+    public long getRating() {
         return rating;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
