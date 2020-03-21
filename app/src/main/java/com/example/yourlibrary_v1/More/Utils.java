@@ -14,7 +14,7 @@ public class Utils {
 
     public void updateUI(FirebaseUser currentUser, Context context) {
         if (currentUser == null) {
-            DynamicToast.makeWarning(context, "Nu esti conectat", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Nu esti conectat", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, "Esti conectat: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
         }

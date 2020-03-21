@@ -32,7 +32,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class register extends AppCompatActivity implements View.OnClickListener {
+public class register extends AppCompatActivity {
     private EditText fullName, emailId, mobileNumber, location, password, confirmPassword;
     private CheckBox terms_conditions;
     private FirebaseAuth mAuth;
@@ -60,7 +60,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkValidation(view, getApplicationContext());
+                checkValidation(getApplicationContext());
             }
         });
 
@@ -77,16 +77,10 @@ public class register extends AppCompatActivity implements View.OnClickListener 
             // set special color
             signUpButton.setTextColor(csl);
         }
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        System.out.println("Test");
     }
 
     // Check Validation Method
-    private void checkValidation(View view, Context context) {
+    private void checkValidation(Context context) {
 
         // Get all edit text texts
         String terms = terms_conditions.getText().toString();
