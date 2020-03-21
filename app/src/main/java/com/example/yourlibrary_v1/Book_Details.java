@@ -43,6 +43,7 @@ public class Book_Details extends AppCompatActivity {
         final ImageView image = findViewById(R.id.book_img_id);
         final TextView description= findViewById(R.id.book_description_id);
         final TextView release= findViewById(R.id.book_releas_id);
+        final TextView rating= findViewById(R.id.book_rating_id);
           // this line of code set the title for new activity
         Objects.requireNonNull(getSupportActionBar()).setTitle("Book details");
 
@@ -56,13 +57,20 @@ public class Book_Details extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                String url= addChar(book_id);
+//                Picasso.with(this).load(url).into(image);
                 Book book = dataSnapshot.getValue(Book.class);
                 author.setText(book.getAuthor());
                 Title.setText(book.getTitle());
-//                Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.id.book_img_id).into(image);
+//                Picasso.with(this
                 category.setText(book.getCategory());
                 description.setText(book.getDescription());
+//                rating.setText(book.getRating());
                 release.setText(book.getData_publisher());
+
+                System.out.println("Rating " + book.getRating());
+                System.out.println("Rating " + book.getCategory());
+                System.out.println("Rating " + book.getData_publisher());
             }
 
             @Override
