@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yourlibrary_v1.Book;
+import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
 import com.example.yourlibrary_v1.ui.home.Adapters.BookViewAdapter_Fav_and_Readed;
 import com.google.firebase.database.DataSnapshot;

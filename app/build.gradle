@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.yourlibrary_v1"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -26,12 +26,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // firebase
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
 
 
 
     // I import this library because transform the url in photo
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     // toast
@@ -45,7 +48,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -1,10 +1,8 @@
 package com.example.yourlibrary_v1.More;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class Utils {
     public static final String regEx = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -14,9 +12,11 @@ public class Utils {
 
     public void updateUI(FirebaseUser currentUser, Context context) {
         if (currentUser == null) {
-            Toast.makeText(context, "Nu esti conectat", Toast.LENGTH_LONG).show();
+            System.out.println("You are not connected");
+//            Toast.makeText(context, "Nu esti conectat", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(context, "Esti conectat: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
+            System.out.println("You are connected as: " + currentUser.getEmail());
+//            Toast.makeText(context, "Esti conectat: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
         }
     }
 }

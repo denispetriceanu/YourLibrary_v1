@@ -28,12 +28,11 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private FirebaseAuth mAuth;
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         new Utils().updateUI(currentUser, getBaseContext());
     }
@@ -48,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         // we use that for start login activity
         // use for access image login
-        NavigationView navigationView1 = findViewById(R.id.nav_view);
-        View hView = navigationView1.getHeaderView(0);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(0);
         ImageView login = hView.findViewById(R.id.image_login_log_out);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, com.example.yourlibrary_v1.login.class);
+                Intent intent = new Intent(MainActivity.this, com.example.yourlibrary_v1.log.login.class);
                 startActivity(intent);
             }
         });
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

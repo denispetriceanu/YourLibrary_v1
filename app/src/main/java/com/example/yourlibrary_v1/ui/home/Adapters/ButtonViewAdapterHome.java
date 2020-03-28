@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yourlibrary_v1.Book;
+import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
 
 import java.util.ArrayList;

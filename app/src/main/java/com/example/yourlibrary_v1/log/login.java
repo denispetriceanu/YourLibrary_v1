@@ -1,4 +1,4 @@
-package com.example.yourlibrary_v1;
+package com.example.yourlibrary_v1.log;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yourlibrary_v1.MainActivity;
 import com.example.yourlibrary_v1.More.Utils;
+import com.example.yourlibrary_v1.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

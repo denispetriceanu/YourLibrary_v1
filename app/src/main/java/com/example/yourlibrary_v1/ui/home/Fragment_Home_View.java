@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yourlibrary_v1.Book;
+import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
 import com.example.yourlibrary_v1.ui.home.Adapters.ButtonViewAdapterHome;
 import com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter;
