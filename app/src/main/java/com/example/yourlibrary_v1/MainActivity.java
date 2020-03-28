@@ -24,16 +24,38 @@ import com.example.yourlibrary_v1.More.Utils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private ImageView login;
 
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            login.setImageResource(R.drawable.logout);
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DynamicToast.makeWarning(getApplicationContext(), "Sign out with success").show();
+                    FirebaseAuth.getInstance().signOut();
+                    onStart();
+                }
+            });
+        } else {
+            login.setImageResource(R.drawable.login);
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, com.example.yourlibrary_v1.log.login.class);
+                    startActivity(intent);
+                }
+            });
+        }
         new Utils().updateUI(currentUser, getBaseContext());
     }
 
@@ -49,14 +71,8 @@ public class MainActivity extends AppCompatActivity {
         // use for access image login
         NavigationView navigationView = findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
-        ImageView login = hView.findViewById(R.id.image_login_log_out);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, com.example.yourlibrary_v1.log.login.class);
-                startActivity(intent);
-            }
-        });
+        login = hView.findViewById(R.id.image_login_log_out);
+
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
