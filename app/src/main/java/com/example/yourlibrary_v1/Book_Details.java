@@ -44,8 +44,11 @@ public class Book_Details extends AppCompatActivity {
                 Book book = dataSnapshot.getValue(Book.class);
 
                 // ToDo: Trebuie facuta verificare la fiecare data de genul: if(title != "")...else(txtView.setTitle("Undefined")
-
+                assert category != null;
                 author.setText(book.getAuthor());
+                if(!category.equals("-")){
+                    category.setText("Undifenid");
+                }
                 Title.setText(book.getTitle());
 //                Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.id.book_img_id).into(image);
                 // rezolvam ca in cazul ratingului, vezi mai jos
