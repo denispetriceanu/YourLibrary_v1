@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.More.User_model;
 import com.example.yourlibrary_v1.R;
+import com.example.yourlibrary_v1.log.login;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,6 +57,12 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        // here verify if the user is login, if not this will be redirect to login page
+        if (mAuth.getUid() == null) {
+            startActivity(new Intent(getContext(), login.class));
+        }
 
         // get info about storage Firebase
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -78,7 +85,6 @@ public class ProfileFragment extends Fragment {
                         change_pic_button.setText("Cancel");
                         change_pic_button.setBackgroundResource(R.drawable.active_btn);
                     } else {
-                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference().child("users");
                         myRef.child(Objects.requireNonNull(mAuth.getUid())).setValue(new User_model(name.getText().toString(),
