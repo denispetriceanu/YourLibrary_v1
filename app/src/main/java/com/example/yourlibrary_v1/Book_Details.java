@@ -1,5 +1,8 @@
 package com.example.yourlibrary_v1;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,13 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.More.Book;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class Book_Details extends AppCompatActivity {
@@ -38,6 +46,7 @@ public class Book_Details extends AppCompatActivity {
         assert book_id != null;
         DatabaseReference myRef = database.getReference("books").child(book_id);
 
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -51,7 +60,14 @@ public class Book_Details extends AppCompatActivity {
                     category.setText("Undifenid");
                 }
                 Title.setText(book.getTitle());
-//                Picasso.with(this).load(Uri.parse(book.getLargeCoverUrl())).error(R.id.book_img_id).into(image);
+
+                String url= book.getImage();
+                Glide.with(getBaseContext())
+                        .load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(image);
+
+
                 // rezolvam ca in cazul ratingului, vezi mai jos
                 category.setText(dataSnapshot.child("categories").getValue().toString());
                 description.setText(book.getDescription());
