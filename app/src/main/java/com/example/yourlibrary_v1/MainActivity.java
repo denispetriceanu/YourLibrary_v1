@@ -4,13 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -20,17 +23,32 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.yourlibrary_v1.More.Utils;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ImageView login;
+    private ImageView login, image_profile;
+    private TextView name, email;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onStart() {
         super.onStart();
@@ -46,6 +64,33 @@ public class MainActivity extends AppCompatActivity {
                     onStart();
                 }
             });
+            DatabaseReference info_user = FirebaseDatabase.getInstance()
+                    .getReference("users").child(Objects.requireNonNull(mAuth.getUid()));
+            info_user.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    name.setText(Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString());
+                    email.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    DynamicToast.makeError(getApplicationContext(), databaseError.getMessage()).show();
+                }
+            });
+
+            StorageReference storage = FirebaseStorage.getInstance().getReference();
+            storage.child(Objects.requireNonNull("images/" + mAuth.getUid())).getDownloadUrl()
+                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(getApplicationContext())
+                                    .load(uri)
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(image_profile);
+                        }
+                    });
         } else {
             login.setImageResource(R.drawable.login);
             login.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+            name.setText("You are not login");
+            email.setText("");
         }
         new Utils().updateUI(currentUser, getBaseContext());
     }
@@ -72,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
         login = hView.findViewById(R.id.image_login_log_out);
+        name = hView.findViewById(R.id.textView2);
+        email = hView.findViewById(R.id.textView);
+        image_profile = hView.findViewById(R.id.imageView);
 
 
 //        FloatingActionButton fab = findViewById(R.id.fab);

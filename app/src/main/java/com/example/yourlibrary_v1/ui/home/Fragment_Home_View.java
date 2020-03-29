@@ -59,7 +59,7 @@ public class Fragment_Home_View extends Fragment {
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     //we get book id;
                     String book_id = messageSnapshot.getKey();
-                    String image = (String) messageSnapshot.child("thumbnail").getValue();
+                    String image = (String) messageSnapshot.child("image").getValue();
                     String title = (String) messageSnapshot.child("title").getValue();
                     String category = (String) messageSnapshot.child("categories").getValue();
                     String author = (String) messageSnapshot.child("author").getValue();
