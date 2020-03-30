@@ -62,7 +62,7 @@ public class Book_Details extends AppCompatActivity {
                 Title.setText(book.getTitle());
 
                 String url= book.getImage();
-                Glide.with(getBaseContext())
+                Glide.with(getApplicationContext())
                         .load(url)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(image);
