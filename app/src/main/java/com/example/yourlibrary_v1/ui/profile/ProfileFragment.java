@@ -53,16 +53,22 @@ public class ProfileFragment extends Fragment {
     private String name_, phone_, email_, address_;
     private StorageReference storageReference;
     private Uri filePath;
+    private FirebaseAuth mAuth;
+
+    @Override
+    public void onStart() {
+        super.onStart();// here verify if the user is login, if not this will be redirect to login page
+        if (mAuth.getUid() == null) {
+            startActivity(new Intent(getContext(), login.class));
+        }
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        // here verify if the user is login, if not this will be redirect to login page
-        if (mAuth.getUid() == null) {
-            startActivity(new Intent(getContext(), login.class));
-        }
 
         // get info about storage Firebase
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -135,11 +141,6 @@ public class ProfileFragment extends Fragment {
         name.setFocusableInTouchMode(false);
         name.setCursorVisible(false);
         name.setFocusable(false);
-
-        email.setClickable(false);
-        email.setFocusableInTouchMode(false);
-        email.setCursorVisible(false);
-        email.setFocusable(false);
 
         phone.setClickable(false);
         phone.setFocusableInTouchMode(false);
