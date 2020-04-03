@@ -1,9 +1,15 @@
 package com.example.yourlibrary_v1.More;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
+
+        @Exclude
+    public boolean isFavourite = false;
+
     private String description;
     private String thumbnail;
     private String category;

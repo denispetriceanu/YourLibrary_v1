@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.Book_Details;
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -31,7 +36,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
 
     public BookViewAdapter_Fav_and_Readed(Context context, ArrayList<Book> lstBook, String which_page) {
         this.context = context;
-        book_list = lstBook;
+        this.book_list = lstBook;
         this.which_page = which_page;
     }
 
@@ -84,7 +89,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
         return book_list.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder  {
         ImageView cover, rmv_btn;
         TextView title;
         CardView cardView;
@@ -95,6 +100,9 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
             rmv_btn = itemView.findViewById(R.id.btn_remove);
             title = itemView.findViewById(R.id.book_title_fav_id);
             cardView = itemView.findViewById(R.id.cardview_fav_id);
+
+        }
+
         }
     }
-}
+

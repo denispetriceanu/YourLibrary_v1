@@ -2,11 +2,14 @@ package com.example.yourlibrary_v1;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -50,13 +53,11 @@ public class Book_Details extends AppCompatActivity {
                 Book book = dataSnapshot.getValue(Book.class);
 
                 // ToDo: Trebuie facuta verificare la fiecare data de genul: if(title != "")...else(txtView.setTitle("Undefined")
-                assert category != null;
+
                 assert book != null;
                 author.setText(book.getAuthor());
                 category.setText(Objects.requireNonNull(dataSnapshot.child("categories").getValue()).toString());
-                if (!category.getText().equals("-")) {
-                    category.setText("Undefined");
-                }
+
 
                 Title.setText(book.getTitle());
                 String url = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();

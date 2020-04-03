@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,6 +20,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.Book_Details;
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.List;
 
@@ -72,11 +79,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         TextView tv_book_title;
         TextView book_author;
         ImageView img_book_thumbnail;
         CardView cardView;
+        CheckBox checkBoxFav;
+        Context mCtx;
 
         private MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +93,38 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             book_author = itemView.findViewById(R.id.book_aurhor_id);
             img_book_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_id);
+            checkBoxFav = itemView.findViewById(R.id.checkbox_favorite);
+            checkBoxFav.setOnCheckedChangeListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(FirebaseAuth.getInstance().getCurrentUser() == null ){
+                Toast.makeText(mCtx, "Please login first", Toast.LENGTH_LONG).show();
+                buttonView.setChecked(false);
+                return;
+            }
+//
+//            int position = getAdapterPosition();
+//            Book b= mData.get(position);
+//
+//            DatabaseReference dbFavs = FirebaseDatabase.getInstance().getReference("users")
+//                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                    .child("favourites")
+//                    .child(b.category);
+//
+
+//            if(isChecked){
+//                dbFavs.child(b.id).setValue(b);
+//            }else{
+//                dbFavs.child(b.id).setValue(null);
+//            }
+
         }
     }
 

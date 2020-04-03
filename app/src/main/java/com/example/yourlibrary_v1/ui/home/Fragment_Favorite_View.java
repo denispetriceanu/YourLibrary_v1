@@ -10,14 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
 import com.example.yourlibrary_v1.ui.home.Adapters.BookViewAdapter_Fav_and_Readed;
+import com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,96 +33,67 @@ import java.util.Objects;
 
 
 public class Fragment_Favorite_View extends Fragment {
-    private ArrayList<Book> lstBook = new ArrayList<>();
-    private RecyclerView recycler_view_book;
-    private View root;
-    private Context context;
+     ArrayList<Book> lstBook ;
+     RecyclerView recycler_view_book;
+     DatabaseReference dbFavs;
+     HomeRecyclerViewAdapter adapter;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_favorite_view, container, false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_favorite_view, container, false);
+    }
 
-        // make connection to firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("books");
+        @Override
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+            super.onViewCreated(view, savedInstanceState);
+            lstBook = new ArrayList<>();
+            recycler_view_book=view.findViewById(R.id.recycler_view_fav_id);
+            adapter = new HomeRecyclerViewAdapter(getActivity(), lstBook);
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
-                    String image = (String) messageSnapshot.child("thumbnail").getValue();
-                    String title = (String) messageSnapshot.child("title").getValue();
-                    String category = (String) messageSnapshot.child("categories").getValue();
-                    String description = (String) messageSnapshot.child("description").getValue();
-                    String author = (String) messageSnapshot.child("author").getValue();
-                    assert author != null;
-                    // remove " and []
-                    author = author.replace("[", "").replace("]", "").replace("\"", "");
-                    // get just first author
-                    if (!author.equals("-")) {
-                        if (author.contains(",")) {
-                            author = author.replace(author.substring(author.indexOf(",")), "");
+            recycler_view_book.setHasFixedSize(true);
+            recycler_view_book.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recycler_view_book.setAdapter(adapter);
+
+            if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, new HomeFragment())
+                        .commit();
+                return;
+            }
+
+            dbFavs =FirebaseDatabase.getInstance().getReference("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("favourites");
+
+            dbFavs.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+
+                        for(DataSnapshot messageSnapshot: dataSnapshot.getChildren()){
+
+                            String image = (String) messageSnapshot.child("thumbnail").getValue();
+                            String title = (String) messageSnapshot.child("title").getValue();
+                            String category = (String) messageSnapshot.child("categories").getValue();
+                            String description = (String) messageSnapshot.child("description").getValue();
+                            String author = (String) messageSnapshot.child("author").getValue();
+
+                            Book b= new Book( image, title, category, description, author);
+                            b.isFavourite = true;
+                            lstBook.add(b);
                         }
-                    }
-                    // truncate the title
-                    assert title != null;
-                    if (title.length() > 27) {
-                        title = title.replace(title.substring(27), "");
-                        title = title.concat("...");
-                    }
 
-                    // generate the element book and add to object
-                    Book ob = new Book(title, category, description, image, author);
-                    lstBook.add(ob);
+                        adapter.notifyDataSetChanged();
+
                 }
-                recycler_view_book = root.findViewById(R.id.recycler_view_fav_id);
-                final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), lstBook, "fav");
-                context = getContext();
-                recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                recycler_view_book.setAdapter(myAdapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-        return root;
-    }
+                }
+            });
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
-        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
         }
-        assert searchView != null;
-        assert searchManager != null;
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String read) {
-                recycler_view_book = root.findViewById(R.id.recycler_view_fav_id);
-                final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), new Book().filter_book(lstBook, read), "fav");
-                context = getContext();
-                recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                recycler_view_book.setAdapter(myAdapter);
-                return false;
-            }
-        });
-    }
 }
