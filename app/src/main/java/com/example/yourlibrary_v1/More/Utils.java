@@ -19,5 +19,23 @@ public class Utils {
 //            Toast.makeText(context, "Esti conectat: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
         }
     }
+
+    public String truncateTitle(String initialTitle) {
+        String returnTitle;
+        if (initialTitle.length() > 27) {
+            returnTitle = initialTitle.replace(initialTitle.substring(27), "");
+            return returnTitle.concat("...");
+        } else {
+            return initialTitle;
+        }
+    }
+
+    public String formatCategory(String category) {
+        category = category.replace("]", "")
+                .replace("[", "").replace("\"", "");
+        if (category.equals("-")) category = "Undefined";
+        category = category.toUpperCase();
+        return category;
+    }
 }
 

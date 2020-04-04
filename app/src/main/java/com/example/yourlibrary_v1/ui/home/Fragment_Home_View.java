@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourlibrary_v1.More.Book;
+import com.example.yourlibrary_v1.More.Utils;
 import com.example.yourlibrary_v1.R;
 import com.example.yourlibrary_v1.ui.home.Adapters.ButtonViewAdapterHome;
 import com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter;
@@ -75,16 +76,15 @@ public class Fragment_Home_View extends Fragment {
 
                     // truncate the title
                     assert title != null;
-                    if (title.length() > 27) {
-                        title = title.replace(title.substring(27), "");
-                        title = title.concat("...");
-                    }
+
+                    Utils utilsObject = new Utils();
+                    title = utilsObject.truncateTitle(title);
+
 
                     // generate the list of categories
                     assert category != null;
-                    category = category.replace("]", "").replace("[", "").replace("\"", "");
-                    if (category.equals("-")) category = "Undefined";
-                    category = category.toUpperCase();
+                    category = utilsObject.formatCategory(category);
+
                     if (!lstCategory.contains(category)) lstCategory.add(category);
 
                     // generate the element book and add to object

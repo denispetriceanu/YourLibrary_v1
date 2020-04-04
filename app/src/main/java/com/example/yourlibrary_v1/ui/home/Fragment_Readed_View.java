@@ -33,7 +33,6 @@ public class Fragment_Readed_View extends Fragment {
     private ArrayList<Book> lstBook = new ArrayList<>();
     private RecyclerView recycler_view_book;
     private View root;
-    private Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +71,6 @@ public class Fragment_Readed_View extends Fragment {
                 }
                 recycler_view_book = root.findViewById(R.id.recycler_view_fav_id);
                 final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), lstBook, "fav");
-                context = getContext();
                 recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 recycler_view_book.setAdapter(myAdapter);
             }
@@ -112,7 +110,6 @@ public class Fragment_Readed_View extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 recycler_view_book = root.findViewById(R.id.recycler_view_fav_id);
                 final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), new Book().filter_book(lstBook, newText), "fav");
-                context = getContext();
                 recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 recycler_view_book.setAdapter(myAdapter);
                 return false;

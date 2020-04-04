@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if (currentUser != null) {
             login.setImageResource(R.drawable.logout);
             login.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             });
             name.setText("You are not login");
             email.setText("");
+            image_profile.setImageResource(R.mipmap.ic_launcher_round);
         }
         new Utils().updateUI(currentUser, getBaseContext());
     }

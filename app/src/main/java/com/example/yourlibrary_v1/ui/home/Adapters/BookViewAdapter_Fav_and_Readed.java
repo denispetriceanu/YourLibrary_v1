@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +18,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.Book_Details;
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -72,11 +67,10 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
                 .into(holder.cover);
 
         // set onclick listener for card view, and send id of book
-        // TODO: send correct id book
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = "02";
+                String id = book_list.get(position).getId_book();
                 Intent intent = new Intent(context, Book_Details.class);
                 intent.putExtra("book_id", id);
                 context.startActivity(intent);
@@ -89,7 +83,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
         return book_list.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder  {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView cover, rmv_btn;
         TextView title;
         CardView cardView;
@@ -103,6 +97,6 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
 
         }
 
-        }
     }
+}
 

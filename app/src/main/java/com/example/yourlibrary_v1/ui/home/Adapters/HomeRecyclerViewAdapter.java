@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -20,10 +17,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.Book_Details;
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.List;
 
@@ -54,7 +47,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.tv_book_title.setText(mData.get(position).getTitle());
         holder.book_author.setText(mData.get(position).getAuthor());
         String url = mData.get(position).getThumbnail();
-        url = addChar(url);
+
+        if (url != null)
+            url = addChar(url);
 
         Glide.with(mContext)
                 .load(url)
@@ -65,7 +60,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String id = "01";
                 // open new fragment for view more details about book
                 Intent intent = new Intent(mContext, Book_Details.class);
                 intent.putExtra("book_id", mData.get(position).getId_book());
@@ -93,7 +87,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             cardView = itemView.findViewById(R.id.cardview_id);
 
         }
-
-        }
     }
+}
 
