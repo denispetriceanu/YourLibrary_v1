@@ -53,7 +53,7 @@ public class Book_Details extends AppCompatActivity {
                     DynamicToast.makeError(getApplicationContext(), "Must login!").show();
                     startActivity(new Intent(Book_Details.this, login.class));
                 } else {
-                    addToReadList(book_id);
+                    addToFavoritesList(book_id);
                     DynamicToast.makeSuccess(getApplicationContext(), "Success").show();
                 }
             }
@@ -141,9 +141,9 @@ public class Book_Details extends AppCompatActivity {
     }
 
     // function to add book to read list
-    private void addToReadList(String book_id) {
-        // we create a reference fot table favorites
-        // if table don't exact will be create automatic
+    private void addToFavoritesList(String book_id) {
+        // we create a reference for table favorites
+        // if table don't exists will be create automatic
         DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("favorites");
         // i can write in one line (FirebaseDatabase.getInstance().getReference("favorites").child(user_id))
         // but i divide for you can understood
