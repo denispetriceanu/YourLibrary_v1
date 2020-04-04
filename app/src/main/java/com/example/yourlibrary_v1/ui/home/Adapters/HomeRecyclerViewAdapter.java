@@ -79,13 +79,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_book_title;
         TextView book_author;
         ImageView img_book_thumbnail;
         CardView cardView;
-        CheckBox checkBoxFav;
-        Context mCtx;
 
         private MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,39 +91,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             book_author = itemView.findViewById(R.id.book_aurhor_id);
             img_book_thumbnail = itemView.findViewById(R.id.book_img_id);
             cardView = itemView.findViewById(R.id.cardview_id);
-            checkBoxFav = itemView.findViewById(R.id.checkbox_favorite);
-            checkBoxFav.setOnCheckedChangeListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
 
         }
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(FirebaseAuth.getInstance().getCurrentUser() == null ){
-                Toast.makeText(mCtx, "Please login first", Toast.LENGTH_LONG).show();
-                buttonView.setChecked(false);
-                return;
-            }
-//
-//            int position = getAdapterPosition();
-//            Book b= mData.get(position);
-//
-//            DatabaseReference dbFavs = FirebaseDatabase.getInstance().getReference("users")
-//                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                    .child("favourites")
-//                    .child(b.category);
-//
-
-//            if(isChecked){
-//                dbFavs.child(b.id).setValue(b);
-//            }else{
-//                dbFavs.child(b.id).setValue(null);
-//            }
 
         }
     }
 
-}

@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-
         @Exclude
-    public boolean isFavourite = false;
+        public boolean isFavourite= false;
 
     private String description;
     private String thumbnail;

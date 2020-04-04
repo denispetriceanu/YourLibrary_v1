@@ -57,6 +57,7 @@ public class register extends AppCompatActivity {
         confirmPassword = findViewById(R.id.confirmPassword);
         terms_conditions = findViewById(R.id.terms_conditions);
 
+
         Button signUpButton = findViewById(R.id.signUpBtn);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
