@@ -18,8 +18,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.Book_Details;
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter.addChar;
 
@@ -28,6 +33,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
     private ArrayList<Book> book_list;
     // this var we help to know from which page receive the info
     private String which_page;
+
 
     public BookViewAdapter_Fav_and_Readed(Context context, ArrayList<Book> lstBook, String which_page) {
         this.context = context;
@@ -44,14 +50,14 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.title.setText(book_list.get(position).getTitle());
         // TODO: delete request on server (firebase) to delete this book from list
         // TODO: will be need to send a parameter to know from which list (readed/fav) will be deleted book
         holder.rmv_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Book itemLabel = book_list.get(position);
+               deleteBook(book_list.get(position).getId_book());
                 book_list.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, book_list.size());
@@ -96,6 +102,15 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
             cardView = itemView.findViewById(R.id.cardview_fav_id);
 
         }
+
+    }
+    private void deleteBook(String book_id) {
+        DatabaseReference deBook = FirebaseDatabase.getInstance().getReference("favorites");
+        deBook=deBook.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+        deBook.child(book_id);
+
+        deBook.removeValue();
+
 
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ public class Fragment_Favorite_View extends Fragment {
     private ArrayList<Book> lstBook;
     private RecyclerView recycler_view_book;
     private View view;
+
 
     @Nullable
     @Override
@@ -68,7 +70,6 @@ public class Fragment_Favorite_View extends Fragment {
         });
 
     }
-
     private void showBooksFav(final String id_book) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("books").child(id_book);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {

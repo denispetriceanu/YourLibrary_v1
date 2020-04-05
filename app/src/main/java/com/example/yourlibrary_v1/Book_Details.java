@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,8 +45,9 @@ public class Book_Details extends AppCompatActivity {
         final TextView release = findViewById(R.id.book_releas_id);
         final TextView rating = findViewById(R.id.book_rating_id);
 
+
         // add click listener to add fav btn
-        Button addFavButton = findViewById(R.id.checkbox_favourite);
+        final Button addFavButton = findViewById(R.id.checkbox_favourite);
         addFavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,13 +56,14 @@ public class Book_Details extends AppCompatActivity {
                     startActivity(new Intent(Book_Details.this, login.class));
                 } else {
                     addToFavoritesList(book_id);
-                    DynamicToast.makeSuccess(getApplicationContext(), "Success").show();
+                    addFavButton.setText("Remove from FAV");
+
                 }
             }
         });
 
         // add click listener to add read btn
-        Button addReadList = findViewById(R.id.addBtn);
+        final Button addReadList = findViewById(R.id.addBtn);
         addReadList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,12 +71,18 @@ public class Book_Details extends AppCompatActivity {
                     DynamicToast.makeError(getApplicationContext(), "Must login!").show();
                     startActivity(new Intent(Book_Details.this, login.class));
                 } else {
-                    DynamicToast.makeSuccess(getApplicationContext(), "Success").show();
+                    addReadList.setText("Remove from ADD");
+
                 }
             }
         });
 
-        // create a instance for database
+
+
+
+
+
+                // create a instance for database
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         assert book_id != null;
         // navigate in table "books", on the "row" where is "book_id"
@@ -104,9 +113,7 @@ public class Book_Details extends AppCompatActivity {
                 );
                 author.setText(author_string);
 
-                // TODO: how i do with author do with category, but in a single line
-                // remove this todo after you make it
-                category.setText(Objects.requireNonNull(dataSnapshot.child("categories").getValue()).toString());
+                category.setText(new Utils().formatCategory(Objects.requireNonNull(dataSnapshot.child("categories").getValue().toString())));
 
 
                 // this line of code set the title for activity
@@ -134,6 +141,8 @@ public class Book_Details extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -157,4 +166,26 @@ public class Book_Details extends AppCompatActivity {
         firebaseDatabase.child(book_id).setValue(System.currentTimeMillis());
         // System.currentTimeMillis() --  return a time, but in a format like a timestamp
     }
+
+    public void checkInDatabase(String location, final String id_book) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference(location)
+                .child(FirebaseAuth.getInstance().getUid());
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println(" Am fost aici "+ dataSnapshot);
+                if (dataSnapshot.hasChild(id_book)){
+                    return ;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }
+
