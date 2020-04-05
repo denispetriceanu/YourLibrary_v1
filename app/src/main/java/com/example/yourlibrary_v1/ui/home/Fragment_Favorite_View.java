@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +53,7 @@ public class Fragment_Favorite_View extends Fragment {
 
         DatabaseReference dbFav = FirebaseDatabase.getInstance().getReference("favorites")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        dbFav.addValueEventListener(new ValueEventListener() {
+        dbFav.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot id_book : dataSnapshot.getChildren()) {

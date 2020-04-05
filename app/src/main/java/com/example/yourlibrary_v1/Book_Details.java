@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,11 +77,7 @@ public class Book_Details extends AppCompatActivity {
         });
 
 
-
-
-
-
-                // create a instance for database
+        // create a instance for database
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         assert book_id != null;
         // navigate in table "books", on the "row" where is "book_id"
@@ -142,7 +137,6 @@ public class Book_Details extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -167,16 +161,15 @@ public class Book_Details extends AppCompatActivity {
         // System.currentTimeMillis() --  return a time, but in a format like a timestamp
     }
 
-    public void checkInDatabase(String location, final String id_book) {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference(location)
-                .child(FirebaseAuth.getInstance().getUid());
+    // this function will be call on the start app (in on create)
+    public void checkInDatabase(final String id_book) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("favorites")
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                System.out.println(" Am fost aici "+ dataSnapshot);
-                if (dataSnapshot.hasChild(id_book)){
-                    return ;
-
+                if (dataSnapshot.hasChild(id_book)) {
+                    // call a function which change the button from add to favorite in remove from favorite
                 }
             }
 
@@ -185,7 +178,6 @@ public class Book_Details extends AppCompatActivity {
 
             }
         });
-
     }
 }
 
