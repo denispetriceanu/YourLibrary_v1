@@ -52,18 +52,14 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.title.setText(book_list.get(position).getTitle());
-        // TODO: delete request on server (firebase) to delete this book from list
-        // TODO: will be need to send a parameter to know from which list (readed/fav) will be deleted book
         holder.rmv_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                book_id=book_list.get(position).getId_book();
-
-               deleteBook();
+                deleteBook(book_list.get(position).getId_book());
                 book_list.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, book_list.size());
-                Toast.makeText(context, "Removed:" + getItemCount(), Toast.LENGTH_SHORT).show();
+                DynamicToast.makeWarning(context, "Removed: " + book_list.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -91,6 +87,14 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
         return book_list.size();
     }
 
+    private void deleteBook(String book_id) {
+        DatabaseReference deBook = FirebaseDatabase.getInstance().getReference("favorites")
+                .child(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                        .getUid())).child(book_id);
+
+        deBook.removeValue();
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView cover, rmv_btn;
         TextView title;
@@ -104,13 +108,6 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
             cardView = itemView.findViewById(R.id.cardview_fav_id);
 
         }
-
-    }
-    private void deleteBook(String book_id) {
-
-        DatabaseReference deBook = FirebaseDatabase.getInstance().getReference("favorites").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(book_id);
-        deBook.removeValue();
-
 
     }
 }
