@@ -70,6 +70,7 @@ public class Book_Details extends AppCompatActivity {
                     DynamicToast.makeError(getApplicationContext(), "Must login!").show();
                     startActivity(new Intent(Book_Details.this, login.class));
                 } else {
+                    addToFavoritesList(book_id);
                     addReadList.setText("Remove from ADD");
 
                 }

@@ -59,7 +59,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
                 book_list.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, book_list.size());
-                DynamicToast.makeWarning(context, "Removed: " + book_list.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                DynamicToast.makeWarning(context, "Removed!").show();
             }
         });
 
