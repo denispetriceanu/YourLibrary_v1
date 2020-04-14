@@ -1,5 +1,6 @@
 package com.example.yourlibrary_v1;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,11 +28,16 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import java.util.Objects;
 
 public class Book_Details extends AppCompatActivity {
+    private boolean isBookInFav = false;
+    private Button addFavButton;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book__details);
+
+        uid = FirebaseAuth.getInstance().getUid();
 
         // with this line we get the book id from last activity
         final String book_id = getIntent().getStringExtra("book_id");
@@ -44,22 +50,16 @@ public class Book_Details extends AppCompatActivity {
         final TextView release = findViewById(R.id.book_releas_id);
         final TextView rating = findViewById(R.id.book_rating_id);
 
-
         // add click listener to add fav btn
-        final Button addFavButton = findViewById(R.id.checkbox_favourite);
-        addFavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                    DynamicToast.makeError(getApplicationContext(), "Must login!").show();
-                    startActivity(new Intent(Book_Details.this, login.class));
-                } else {
-                    addToFavoritesList(book_id);
-                    addFavButton.setText("Remove from FAV");
-
-                }
-            }
-        });
+        // if user is not login, we don't have how to search book
+        // then we will say the book is not in list
+        addFavButton = findViewById(R.id.checkbox_favourite);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            DynamicToast.makeError(getApplicationContext(), "Must login!").show();
+            startActivity(new Intent(Book_Details.this, login.class));
+        } else {
+            checkIfBookIsInFav(book_id);
+        }
 
         // add click listener to add read btn
         final Button addReadList = findViewById(R.id.addBtn);
@@ -72,7 +72,6 @@ public class Book_Details extends AppCompatActivity {
                 } else {
                     addToFavoritesList(book_id);
                     addReadList.setText("Remove from ADD");
-
                 }
             }
         });
@@ -135,6 +134,56 @@ public class Book_Details extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void checkIfBookIsInFav(final String bookId) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                .getReference("favorites").child(uid).child(bookId);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // when we receive message from server we know if is or not in fav list the book
+                if (dataSnapshot.exists()) {
+                    // if is then we show text for remove book
+                    // if is not then
+                    isBookInFav = true;
+                    addFavButton.setText("Remove from FAV");
+                    addFavButton.setBackgroundResource(R.color.colorAccent1);
+                    addFavButton.setTextColor(getResources().getColor(R.color.black));
+                }
+                // make functionality for button
+                addFavButton.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(View view) {
+                        if (isBookInFav) {
+                            removeFromFav(bookId);
+                            addFavButton.setText("Add favorites");
+                            addFavButton.setBackgroundResource(R.color.colorAccent);
+                            addFavButton.setTextColor(getResources().getColor(R.color.white));
+                            isBookInFav = false;
+                        } else {
+                            addToFavoritesList(bookId);
+                            addFavButton.setText("Remove from FAV");
+                            addFavButton.setBackgroundResource(R.color.colorAccent1);
+                            addFavButton.setTextColor(getResources().getColor(R.color.black));
+                            isBookInFav = false;
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void removeFromFav(String bookId) {
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("favorites").child(uid);
+        reference.child(bookId).removeValue();
     }
 
 

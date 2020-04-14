@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -65,6 +64,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
 
         // convert url to image
         String url = addChar(book_list.get(position).getThumbnail());
+
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

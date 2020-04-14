@@ -39,11 +39,11 @@ public class Fragment_Favorite_View extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        lstBook = new ArrayList<>();
-        this.view = view;
-
+    public void onStart() {
+        lstBook.removeAll(lstBook);
+        if (recycler_view_book != null) {
+            recycler_view_book.removeAllViews();
+        }
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.nav_host_fragment, new HomeFragment())
@@ -67,15 +67,23 @@ public class Fragment_Favorite_View extends Fragment {
 
             }
         });
-
+        super.onStart();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+        lstBook = new ArrayList<>();
+    }
+
     private void showBooksFav(final String id_book) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("books").child(id_book);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String title = (String) dataSnapshot.child("title").getValue();
-                String image = (String) dataSnapshot.child("thumbnail").getValue();
+                String image = (String) dataSnapshot.child("image").getValue();
                 String category = (String) dataSnapshot.child("categories").getValue();
                 String author = (String) dataSnapshot.child("author").getValue();
 
