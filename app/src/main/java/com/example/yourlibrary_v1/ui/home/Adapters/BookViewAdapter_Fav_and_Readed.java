@@ -55,6 +55,7 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
             @Override
             public void onClick(View view) {
                 deleteBook(book_list.get(position).getId_book());
+                deleteBok(book_list.get(position).getId_book());
                 book_list.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, book_list.size());
@@ -93,6 +94,12 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
                         .getUid())).child(book_id);
 
         deBook.removeValue();
+    }
+    private void deleteBok(String bok_id){
+        DatabaseReference Book= FirebaseDatabase.getInstance().getReference("read")
+                .child(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                .getUid())).child(bok_id);
+        Book.removeValue();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

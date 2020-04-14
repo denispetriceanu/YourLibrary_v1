@@ -34,6 +34,7 @@ public class Book_Details extends AppCompatActivity {
     private Button addFavButton;
     private Button addRedButton;
     private String uid;
+    private String udi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class Book_Details extends AppCompatActivity {
         setContentView(R.layout.activity_book__details);
 
         uid = FirebaseAuth.getInstance().getUid();
+        udi=FirebaseAuth.getInstance().getUid();
 
         // with this line we get the book id from last activity
         final String book_id = getIntent().getStringExtra("book_id");
@@ -135,7 +137,7 @@ public class Book_Details extends AppCompatActivity {
     }
 
     private void checkIfBookIsInRed(final String bookid) {
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("favorites").child(bookid);
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("read").child(udi).child(bookid);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -224,7 +226,7 @@ public class Book_Details extends AppCompatActivity {
         reference.child(bookId).removeValue();
     }
     private void    removeFromRed(String bookid){
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("favorites").child(uid);
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("read").child(uid);
         reference.child(bookid).removeValue();
     }
 
@@ -255,7 +257,7 @@ public class Book_Details extends AppCompatActivity {
     private void addToReadList(String bok_id) {
         // we create a reference for table favorites
         // if table don't exists will be create automatic
-        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("favorites");
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("read");
         // i can write in one line (FirebaseDatabase.getInstance().getReference("favorites").child(user_id))
         // but i divide for you can understood
         // the child for this table will be user

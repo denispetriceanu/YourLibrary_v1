@@ -57,7 +57,7 @@ public class Fragment_Readed_View extends Fragment {
             return;
         }
 
-        DatabaseReference dbFav = FirebaseDatabase.getInstance().getReference("favorites")
+        DatabaseReference dbFav = FirebaseDatabase.getInstance().getReference("read")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         dbFav.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -90,7 +90,7 @@ public class Fragment_Readed_View extends Fragment {
                 lstBook.add(b);
 
                 recycler_view_book = view.findViewById(R.id.recycler_view_fav_id);
-                final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), lstBook, "fav");
+                final BookViewAdapter_Fav_and_Readed myAdapter = new BookViewAdapter_Fav_and_Readed(getContext(), lstBook, "read");
                 recycler_view_book.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 recycler_view_book.setAdapter(myAdapter);
             }
