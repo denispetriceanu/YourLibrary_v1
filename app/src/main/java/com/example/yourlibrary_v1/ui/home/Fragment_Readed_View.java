@@ -63,7 +63,7 @@ public class Fragment_Readed_View extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot id_book : dataSnapshot.getChildren()) {
-                    showBooksFav(id_book.getKey());
+                    showBooksRed(id_book.getKey());
                 }
 
             }
@@ -75,7 +75,7 @@ public class Fragment_Readed_View extends Fragment {
         });
 
     }
-    private void showBooksFav(final String id_book) {
+    private void showBooksRed(final String id_book) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("books").child(id_book);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
