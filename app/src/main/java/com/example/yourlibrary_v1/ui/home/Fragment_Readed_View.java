@@ -81,7 +81,7 @@ public class Fragment_Readed_View extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String title = (String) dataSnapshot.child("title").getValue();
-                String image = (String) dataSnapshot.child("thumbnail").getValue();
+                String image = (String) dataSnapshot.child("image").getValue();
                 String category = (String) dataSnapshot.child("categories").getValue();
                 String author = (String) dataSnapshot.child("author").getValue();
 
