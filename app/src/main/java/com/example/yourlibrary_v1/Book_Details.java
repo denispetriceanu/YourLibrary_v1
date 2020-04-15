@@ -3,11 +3,11 @@ package com.example.yourlibrary_v1;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +34,6 @@ public class Book_Details extends AppCompatActivity {
     private Button addFavButton;
     private Button addRedButton;
     private String uid;
-    private String udi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class Book_Details extends AppCompatActivity {
         setContentView(R.layout.activity_book__details);
 
         uid = FirebaseAuth.getInstance().getUid();
-        udi=FirebaseAuth.getInstance().getUid();
 
         // with this line we get the book id from last activity
         final String book_id = getIntent().getStringExtra("book_id");
@@ -59,22 +57,16 @@ public class Book_Details extends AppCompatActivity {
         // if user is not login, we don't have how to search book
         // then we will say the book is not in list
         addFavButton = findViewById(R.id.checkbox_favourite);
+        // add click listener to add read btn
+        addRedButton = findViewById(R.id.addBtn);
+
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             DynamicToast.makeError(getApplicationContext(), "Must login!").show();
             startActivity(new Intent(Book_Details.this, login.class));
         } else {
             checkIfBookIsInFav(book_id);
+            checkIfBookIsInRed(book_id);
         }
-
-        // add click listener to add read btn
-        addRedButton = findViewById(R.id.addBtn);
-                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                    DynamicToast.makeError(getApplicationContext(), "Must login!").show();
-                    startActivity(new Intent(Book_Details.this, login.class));
-                } else {
-                    checkIfBookIsInRed(book_id);
-                }
-
 
 
         // create a instance for database
@@ -86,7 +78,7 @@ public class Book_Details extends AppCompatActivity {
         // create a reference
         DatabaseReference myRef = database.getReference("books").child(book_id);
 
-        // get data from thar reference
+        // get data from that reference
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -137,13 +129,13 @@ public class Book_Details extends AppCompatActivity {
     }
 
     private void checkIfBookIsInRed(final String bookid) {
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("read").child(udi).child(bookid);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("read").child(uid).child(bookid);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    isBookInRed=true;
+                if (dataSnapshot.exists()) {
+                    isBookInRed = true;
                     addRedButton.setText("Remove from READ");
                     addRedButton.setBackgroundResource(R.color.colorAccent1);
                     addRedButton.setTextColor(getResources().getColor(R.color.black));
@@ -153,6 +145,7 @@ public class Book_Details extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (isBookInRed) {
+                            System.out.println("Here in add read button " + isBookInRed);
                             removeFromRed(bookid);
                             addRedButton.setText("Add read");
                             addRedButton.setBackgroundResource(R.color.colorAccent);
@@ -160,10 +153,11 @@ public class Book_Details extends AppCompatActivity {
                             isBookInRed = false;
                         } else {
                             addToReadList(bookid);
+                            System.out.println("Here in - add read button " + isBookInRed);
                             addRedButton.setText("Remove from READ");
                             addRedButton.setBackgroundResource(R.color.colorAccent1);
                             addRedButton.setTextColor(getResources().getColor(R.color.black));
-                            isBookInRed = false;
+                            isBookInRed = true;
                         }
                     }
                 });
@@ -199,16 +193,18 @@ public class Book_Details extends AppCompatActivity {
                     public void onClick(View view) {
                         if (isBookInFav) {
                             removeFromFav(bookId);
+                            System.out.println("Here in add fav button " + isBookInFav);
                             addFavButton.setText("Add favorites");
                             addFavButton.setBackgroundResource(R.color.colorAccent);
                             addFavButton.setTextColor(getResources().getColor(R.color.white));
                             isBookInFav = false;
                         } else {
                             addToFavoritesList(bookId);
+                            System.out.println("Here in add -- fav button " + isBookInFav);
                             addFavButton.setText("Remove from FAV");
                             addFavButton.setBackgroundResource(R.color.colorAccent1);
                             addFavButton.setTextColor(getResources().getColor(R.color.black));
-                            isBookInFav = false;
+                            isBookInFav = true;
                         }
                     }
                 });
@@ -224,10 +220,13 @@ public class Book_Details extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("favorites").child(uid);
         reference.child(bookId).removeValue();
+        DynamicToast.makeError(getApplicationContext(), "Remove with success from favorites list!", Toast.LENGTH_SHORT).show();
     }
-    private void    removeFromRed(String bookid){
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("read").child(uid);
+
+    private void removeFromRed(String bookid) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("read").child(uid);
         reference.child(bookid).removeValue();
+        DynamicToast.makeError(getApplicationContext(), "Remove with success from readed list!", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -253,7 +252,9 @@ public class Book_Details extends AppCompatActivity {
         // I choose to put value the date, maybe we use that...idk
         firebaseDatabase.child(book_id).setValue(System.currentTimeMillis());
         // System.currentTimeMillis() --  return a time, but in a format like a timestamp
+        DynamicToast.makeSuccess(getApplicationContext(), "Add with success in favorite list!", Toast.LENGTH_SHORT).show();
     }
+
     private void addToReadList(String bok_id) {
         // we create a reference for table favorites
         // if table don't exists will be create automatic
@@ -269,25 +270,8 @@ public class Book_Details extends AppCompatActivity {
         // I choose to put value the date, maybe we use that...idk
         firebaseDatabase.child(bok_id).setValue(System.currentTimeMillis());
         // System.currentTimeMillis() --  return a time, but in a format like a timestamp
-    }
+        DynamicToast.makeSuccess(getApplicationContext(), "Add with success in read list!", Toast.LENGTH_SHORT).show();
 
-    // this function will be call on the start app (in on create)
-    public void checkInDatabase(final String id_book) {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("favorites")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(id_book)) {
-                    // call a function which change the button from add to favorite in remove from favorite
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 }
 

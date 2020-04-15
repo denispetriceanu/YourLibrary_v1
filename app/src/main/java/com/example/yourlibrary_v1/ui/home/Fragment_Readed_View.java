@@ -1,17 +1,12 @@
 package com.example.yourlibrary_v1.ui.home;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +32,6 @@ public class Fragment_Readed_View extends Fragment {
     private RecyclerView recycler_view_book;
     private View view;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,10 +39,13 @@ public class Fragment_Readed_View extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        lstBook = new ArrayList<>();
-        this.view = view;
+    public void onStart() {
+        super.onStart();
+        lstBook.removeAll(lstBook);
+        // every time when de app restart we check if recycler is empty, if is not then we will make empty
+        if (recycler_view_book != null) {
+            recycler_view_book.removeAllViews();
+        }
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
@@ -73,8 +70,16 @@ public class Fragment_Readed_View extends Fragment {
 
             }
         });
-
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        lstBook = new ArrayList<>();
+        this.view = view;
+    }
+
+
     private void showBooksRed(final String id_book) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("books").child(id_book);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -56,7 +56,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.img_book_thumbnail);
 
-        // TODO: send correct id book
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

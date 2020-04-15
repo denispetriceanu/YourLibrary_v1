@@ -1,7 +1,5 @@
 package com.example.yourlibrary_v1.More;
 
-import com.google.firebase.database.Exclude;
-
 public class Favourite {
 
 
