@@ -27,6 +27,11 @@ public class Book {
         this.author = author;
     }
 
+    public Book(String title, String id_book) {
+        this.title = title;
+        this.id_book = id_book;
+    }
+
     public Book() {
     }
 
@@ -43,19 +48,6 @@ public class Book {
         this.rating = rating;
         this.image = image;
     }
-    //    public Book(String title, String category, String description, String thumbnail, int info_link, int nr_rating, int page_count, int rating, int image, String author, String data_publisher) {
-//        this.title = title;
-//        this.category = category;
-//        this.description = description;
-//        this.thumbnail = thumbnail;
-//        this.info_link = info_link;
-//        this.nr_rating = nr_rating;
-//        this.page_count = page_count;
-//        this.rating = rating;
-//        this.image = image;
-//        this.author = author;
-//        this.data_publisher = data_publisher;
-//    }
 
     public String getId_book() {
         return id_book;
@@ -144,9 +136,7 @@ public class Book {
             if (list_receive.get(i).getTitle().toLowerCase().contains(txt.toLowerCase())) {
                 list_sort.add(list_receive.get(i));
             }
-
         }
-
         return list_sort;
     }
 

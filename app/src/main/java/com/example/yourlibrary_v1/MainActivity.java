@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             email.setText("");
             image_profile.setImageResource(R.mipmap.ic_launcher_round);
         }
-        new Utils().updateUI(currentUser, getBaseContext());
+        new Utils().updateUI(currentUser);
     }
 
 

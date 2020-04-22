@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.More.Utils;
 import com.example.yourlibrary_v1.log.login;
-import com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.Objects;
+
+import static com.example.yourlibrary_v1.More.Utils.addChar;
 
 public class Book_Details extends AppCompatActivity {
     private boolean isBookInFav = false;
@@ -107,7 +108,7 @@ public class Book_Details extends AppCompatActivity {
                 Objects.requireNonNull(getSupportActionBar()).setTitle(book.getTitle());
 
                 String url = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
-                url = HomeRecyclerViewAdapter.addChar(url);
+                url = addChar(url);
                 // use Glide for generate the image from url
                 Glide.with(getApplicationContext())
                         .load(url)

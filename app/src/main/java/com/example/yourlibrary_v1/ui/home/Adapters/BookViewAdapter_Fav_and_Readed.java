@@ -25,7 +25,7 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.example.yourlibrary_v1.ui.home.Adapters.HomeRecyclerViewAdapter.addChar;
+import static com.example.yourlibrary_v1.More.Utils.addChar;
 
 public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookViewAdapter_Fav_and_Readed.MyViewHolder> {
     private Context context;
@@ -95,7 +95,6 @@ public class BookViewAdapter_Fav_and_Readed extends RecyclerView.Adapter<BookVie
         DatabaseReference deBook = FirebaseDatabase.getInstance().getReference("favorites")
                 .child(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
                         .getUid())).child(book_id);
-
         deBook.removeValue();
     }
 

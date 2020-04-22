@@ -20,6 +20,8 @@ import com.example.yourlibrary_v1.R;
 
 import java.util.List;
 
+import static com.example.yourlibrary_v1.More.Utils.addChar;
+
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
@@ -28,10 +30,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     public HomeRecyclerViewAdapter(Context mContext, List<Book> mData) {
         this.mContext = mContext;
         this.mData = mData;
-    }
-
-    public static String addChar(String str) {
-        return str.substring(0, 4) + "s" + str.substring(4);
     }
 
     @NonNull
