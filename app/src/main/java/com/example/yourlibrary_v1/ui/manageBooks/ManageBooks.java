@@ -96,8 +96,8 @@ public class ManageBooks extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                final AdapterShowBooks myAdapter = new AdapterShowBooks(new Book().filter_book(list_book, newText), getContext());
-//                recyclerView.setAdapter(myAdapter);
+                final AdapterShowBooks myAdapter = new AdapterShowBooks(new Book().filter_book(list_book, newText), getContext());
+                recyclerView.setAdapter(myAdapter);
                 return false;
             }
         });
