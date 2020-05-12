@@ -212,7 +212,6 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
     private void init_textView(View root) {
         name = root.findViewById(R.id.name_profile);
         phone = root.findViewById(R.id.phone_profile);

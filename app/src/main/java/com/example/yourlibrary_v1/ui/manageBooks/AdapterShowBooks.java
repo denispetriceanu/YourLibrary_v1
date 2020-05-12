@@ -62,10 +62,10 @@ public class AdapterShowBooks extends RecyclerView.Adapter<AdapterShowBooks.MyVi
                 holder.remove_book.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        removeBookFormFirebase(listBooks.get(position).getId_book());
                         listBooks.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, listBooks.size());
-
                         DynamicToast.makeError(context, "Book was delete").show();
 
                     }
@@ -86,6 +86,11 @@ public class AdapterShowBooks extends RecyclerView.Adapter<AdapterShowBooks.MyVi
     @Override
     public int getItemCount() {
         return listBooks.size();
+    }
+
+    private void removeBookFormFirebase(String id) {
+        FirebaseDatabase.getInstance().getReference().child("books")
+                .child(id).removeValue();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
