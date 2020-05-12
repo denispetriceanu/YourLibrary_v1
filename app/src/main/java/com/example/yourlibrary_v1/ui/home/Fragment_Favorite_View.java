@@ -40,6 +40,7 @@ public class Fragment_Favorite_View extends Fragment {
 
     @Override
     public void onStart() {
+        super.onStart();
         lstBook.removeAll(lstBook);
         if (recycler_view_book != null) {
             recycler_view_book.removeAllViews();
@@ -59,7 +60,6 @@ public class Fragment_Favorite_View extends Fragment {
                 for (DataSnapshot id_book : dataSnapshot.getChildren()) {
                     showBooksFav(id_book.getKey());
                 }
-
             }
 
             @Override
@@ -67,7 +67,6 @@ public class Fragment_Favorite_View extends Fragment {
 
             }
         });
-        super.onStart();
     }
 
     @Override

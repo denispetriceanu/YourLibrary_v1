@@ -63,7 +63,7 @@ public class Book_Details extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             DynamicToast.makeError(getApplicationContext(), "Must login!").show();
-            startActivity(new Intent(Book_Details.this, login.class));
+            startActivity(new Intent(Book_Details.this, login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         } else {
             checkIfBookIsInFav(book_id);
             checkIfBookIsInRed(book_id);

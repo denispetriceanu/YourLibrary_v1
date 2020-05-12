@@ -55,15 +55,17 @@ public class ProfileFragment extends Fragment {
     private Uri filePath;
     private FirebaseAuth mAuth;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mAuth.getUid() == null)
+            startActivity(new Intent(getContext(), login.class));
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         mAuth = FirebaseAuth.getInstance();
-
-        if (mAuth.getUid() == null) {
-            startActivity(new Intent(getContext(), login.class));
-        }
 
         // get info about storage Firebase
         storageReference = FirebaseStorage.getInstance().getReference();
