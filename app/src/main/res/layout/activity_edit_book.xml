@@ -11,26 +11,32 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <ImageView
-            android:id="@+id/book_edit_img"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
-            android:background="#2d2d2d"
-            android:elevation="8dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <ImageButton
-            android:id="@+id/changeImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="-50dp"
-            android:src="@android:drawable/ic_menu_camera" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/changeImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:src="@drawable/ic_camera_enhance_black_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/book_edit_img"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="#2d2d2d"
+                android:elevation="8dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +85,6 @@
             android:clickable="false"
             android:drawableLeft="@drawable/ic_action_author"
             android:drawablePadding="8dp"
-
             android:inputType="textCapWords"
             android:gravity="center_vertical"
             android:padding="10dp"
@@ -134,7 +139,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/book_releas"
+            android:id="@+id/book_release"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -143,7 +148,7 @@
             android:drawableLeft="@drawable/ic_action_fav"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:inputType="textCapWords"
+            android:inputType="date"
             android:padding="10dp"
             android:singleLine="true"
             android:textColor="@color/white"
@@ -160,24 +165,17 @@
             android:layout_height="40dp"
             android:layout_weight="1" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/saveBtn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/loginbutton_selector"
-                android:padding="3dp"
-                android:text="SAVE"
-                android:textColor="@color/nav_color"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/loginbutton_selector"
+            android:padding="3dp"
+            android:text="SAVE"
+            android:textColor="@color/nav_color"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </ScrollView>

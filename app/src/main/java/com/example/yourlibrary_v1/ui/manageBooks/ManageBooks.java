@@ -2,6 +2,7 @@ package com.example.yourlibrary_v1.ui.manageBooks;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +31,12 @@ import java.util.Objects;
 public class ManageBooks extends Fragment {
     private ArrayList<Book> list_book;
     private RecyclerView recyclerView;
-    private View root;
+
+    @Override
+    public void onStart() {
+        getBooks();
+        super.onStart();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,10 +46,12 @@ public class ManageBooks extends Fragment {
         list_book = new ArrayList<>();
         recyclerView = root.findViewById(R.id.listBooksManager);
         FloatingActionButton btn = root.findViewById(R.id.addBook);
-        // todo: open new activity for add book
-
-        // show books
-        getBooks();
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), EditBook.class));
+            }
+        });
 
         return root;
     }
@@ -80,7 +88,7 @@ public class ManageBooks extends Fragment {
                 return false;
             }
         });
-        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = null;
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();

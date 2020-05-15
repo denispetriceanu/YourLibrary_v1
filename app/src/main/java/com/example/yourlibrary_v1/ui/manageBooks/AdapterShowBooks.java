@@ -1,12 +1,15 @@
 package com.example.yourlibrary_v1.ui.manageBooks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +24,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
+import com.shashank.sony.fancydialoglib.Icon;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -62,12 +69,35 @@ public class AdapterShowBooks extends RecyclerView.Adapter<AdapterShowBooks.MyVi
                 holder.remove_book.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        removeBookFormFirebase(listBooks.get(position).getId_book());
-                        listBooks.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, listBooks.size());
-                        DynamicToast.makeError(context, "Book was delete").show();
-
+                        new FancyAlertDialog.Builder((Activity) context)
+                                .setTitle("Do you wanna delete this book?")
+                                .setBackgroundColor(Color.parseColor("#db1d30"))
+                                .setNegativeBtnText("Cancel")
+                                .setPositiveBtnBackground(Color.parseColor("#FF4081"))
+                                .setPositiveBtnText("Yes")
+                                .setNegativeBtnBackground(Color.parseColor("#FFA9A7A8"))
+                                .setPositiveBtnBackground(Color.parseColor("#003300"))
+                                .setAnimation(Animation.POP)
+                                .isCancellable(true)
+                                .setIcon(R.drawable.ic_delete_white, Icon.Visible)
+                                .OnPositiveClicked(new FancyAlertDialogListener() {
+                                    @Override
+                                    public void OnClick() {
+                                        // Show Dialog
+                                        removeBookFormFirebase(listBooks.get(position).getId_book());
+                                        listBooks.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, listBooks.size());
+                                        DynamicToast.makeError(context, "Book was delete").show();
+                                    }
+                                })
+                                .OnNegativeClicked(new FancyAlertDialogListener() {
+                                    @Override
+                                    public void OnClick() {
+                                        Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .build();
                     }
                 });
                 Glide.with(context)
