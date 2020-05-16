@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.yourlibrary_v1.More.Book;
+import com.example.yourlibrary_v1.More.Utils;
 import com.example.yourlibrary_v1.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +31,7 @@ import static com.example.yourlibrary_v1.More.Utils.addChar;
 public class EditBook extends AppCompatActivity {
     private boolean isModEdit = false;
     private String id_book;
-    private EditText title, author, category, releaseDate, rating;
+    private EditText title, author, category, releaseDate, rating, pagecount, description;
     private Button save;
     private ImageView book_edit_img;
 
@@ -67,6 +69,10 @@ public class EditBook extends AppCompatActivity {
         releaseDate = findViewById(R.id.book_release);
         save = findViewById(R.id.saveBtn);
         book_edit_img = findViewById(R.id.book_edit_img);
+        rating= findViewById(R.id.book_rating);
+        pagecount=findViewById(R.id.book_page);
+        description=findViewById(R.id.book_description);
+
 
         if (isModEdit)
             save.setText("Edit book");
@@ -94,14 +100,23 @@ public class EditBook extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Book book = dataSnapshot.getValue(Book.class);
+                assert book != null;
+                Utils utils = new Utils();
+                String author_string = utils.formatCategory(
+                        book.getAuthor()
+                );
                 title.setText(Objects.requireNonNull(dataSnapshot.child("title").getValue()).toString());
-                author.setText(Objects.requireNonNull(dataSnapshot.child("author").getValue()).toString());
-                category.setText(Objects.requireNonNull(dataSnapshot.child("categories").getValue()).toString());
+                author.setText(author_string);
+                category.setText(new Utils().formatCategory(Objects.requireNonNull(dataSnapshot.child("categories").getValue().toString())));
                 releaseDate.setText(Objects.requireNonNull(dataSnapshot.child("date_publisher").getValue()).toString());
                 Glide.with(getApplicationContext())
                         .load(addChar(Objects.requireNonNull(dataSnapshot.child("thumbnail").getValue()).toString()))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(book_edit_img);
+                rating.setText(Objects.requireNonNull(dataSnapshot.child("rating").getValue()).toString());
+                pagecount.setText(Objects.requireNonNull(dataSnapshot.child("page_count").getValue()).toString());
+                description.setText(book.getDescription());
             }
 
             @Override
@@ -124,11 +139,16 @@ public class EditBook extends AppCompatActivity {
         } else if (releaseDate.getText().length() == 0) {
             DynamicToast.makeError(getApplicationContext(), "You don't write the date of publisher", Toast.LENGTH_SHORT).show();
             return false;
+        } else if (rating.getText().length() == 0 && isModEdit) {
+            DynamicToast.makeError(getApplicationContext(), "You don't write the date of publisher", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (pagecount.getText().length() < 1){
+            DynamicToast.makeError(getApplicationContext(), "You don't write the page", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (description.getText().length() < 10) {
+            DynamicToast.makeError(getApplicationContext(), "The description is to short", Toast.LENGTH_SHORT).show();
+            return false;
         }
-//        else if (rating.getText().length() == 0 && isModEdit) {
-//            DynamicToast.makeError(getApplicationContext(), "You don't write the date of publisher", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
         return true;
     }
 
@@ -144,6 +164,8 @@ public class EditBook extends AppCompatActivity {
         reference.child("categories").setValue(category.getText().toString());
         reference.child("date_publisher").setValue(releaseDate.getText().toString());
         reference.child("thumbnail").setValue("http://books.google.com/books/content?id=2dQ8KL2t99QC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api");
+        reference.child("rating").setValue(rating.getText().toString());
+        reference.child("page_count").setValue(pagecount.getText().toString());
 
         onBackPressed();
         if (isModEdit)
