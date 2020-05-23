@@ -30,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -66,13 +65,14 @@ public class Fragment_Home_View extends Fragment {
                     String author = (String) messageSnapshot.child("author").getValue();
                     assert author != null;
                     // remove " and []
-                    author = author.replace("[", "").replace("]", "").replace("\"", "");
+                    // TODO: HERE I COMM
+//                    author = author.replace("[", "").replace("]", "").replace("\"", "");
                     // get just first author
-                    if (!author.equals("-")) {
-                        if (author.contains(",")) {
-                            author = author.replace(author.substring(author.indexOf(",")), "");
-                        }
-                    }
+//                    if (!author.equals("-")) {
+//                        if (author.contains(",")) {
+//                            author = author.replace(author.substring(author.indexOf(",")), "");
+//                        }
+//                    }
 
                     // truncate the title
                     assert title != null;
@@ -82,8 +82,9 @@ public class Fragment_Home_View extends Fragment {
 
 
                     // generate the list of categories
-                    assert category != null;
-                    category = utilsObject.formatCategory(category);
+//                    assert category != null;
+                    if (category != null)
+                        category = utilsObject.formatCategory(category);
 
                     if (!lstCategory.contains(category)) lstCategory.add(category);
 
@@ -99,6 +100,7 @@ public class Fragment_Home_View extends Fragment {
                 recycler_view_book.setAdapter(myAdapter);
 
                 // sort lstCategory alphabetical
+                lstCategory = removeIfIsNull(lstCategory);
                 Collections.sort(lstCategory);
 
                 // show the list with categories
@@ -117,6 +119,16 @@ public class Fragment_Home_View extends Fragment {
         return root;
     }
 
+    private ArrayList<String> removeIfIsNull(ArrayList<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == null) {
+                System.out.println("We find a null item");
+                list.remove(i);
+            }
+        }
+        return list;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +139,7 @@ public class Fragment_Home_View extends Fragment {
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
         MenuItem searchItem = menu.findItem(R.id.app_bar_search);
-        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = null;
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();

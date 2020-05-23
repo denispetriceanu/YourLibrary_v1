@@ -9,6 +9,10 @@ public class Utils {
         return str.substring(0, 4) + "s" + str.substring(4);
     }
 
+    public static String removeChar(String str) {
+        return str.substring(0, 4) + str.substring(5);
+    }
+
     public String truncateTitle(String initialTitle) {
         String returnTitle;
         if (initialTitle.length() > 27) {
@@ -20,11 +24,15 @@ public class Utils {
     }
 
     public String formatCategory(String category) {
-        category = category.replace("]", "")
-                .replace("[", "").replace("\"", "");
-        if (category.equals("-")) category = "Undefined";
-        category = category.toUpperCase();
-        return category;
+        if (!category.contains("[")) {
+            return category;
+        } else {
+            category = category.replace("]", "")
+                    .replace("[", "").replace("\"", "");
+            if (category.equals("-")) category = "Undefined";
+            category = category.toUpperCase();
+            return category;
+        }
     }
 
     public void updateUI(FirebaseUser currentUser) {

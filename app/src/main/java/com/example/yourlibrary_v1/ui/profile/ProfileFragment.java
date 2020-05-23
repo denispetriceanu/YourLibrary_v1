@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
                         DatabaseReference myRef = database.getReference().child("users");
                         myRef.child(Objects.requireNonNull(mAuth.getUid())).setValue(new User_model(name.getText().toString(),
                                 email.getText().toString(), phone.getText().toString(), address.getText().toString()));
-                        DynamicToast.makeSuccess(Objects.requireNonNull(getContext()), "Modificated with success").show();
+                        DynamicToast.makeSuccess(requireContext(), "Modificated with success").show();
                         changeFormatBtn();
                     }
                 } else {
@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment {
         email.setText(email_);
         phone.setText(phone_);
         address.setText(address_);
-        DynamicToast.makeWarning(Objects.requireNonNull(getContext()), "Unsaved changes").show();
+        DynamicToast.makeWarning(requireContext(), "Unsaved changes").show();
         changeFormatBtn();
     }
 
@@ -197,7 +197,7 @@ public class ProfileFragment extends Fragment {
                         .Images
                         .Media
                         .getBitmap(
-                                Objects.requireNonNull(getActivity()).getContentResolver(),
+                                requireActivity().getContentResolver(),
                                 filePath);
                 image_upload.setImageBitmap(bitmap);
                 image_upload.setVisibility(View.VISIBLE);
@@ -210,7 +210,7 @@ public class ProfileFragment extends Fragment {
                 // Log the exception
                 e.printStackTrace();
             }
-            DynamicToast.makeWarning(Objects.requireNonNull(getContext()), "You selected the photo, please upload").show();
+            DynamicToast.makeWarning(requireContext(), "You selected the photo, please upload").show();
         }
     }
 
@@ -226,7 +226,7 @@ public class ProfileFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Glide.with(Objects.requireNonNull(getContext()))
+                        Glide.with(requireContext())
                                 .load(uri)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(image_upload);
@@ -263,7 +263,7 @@ public class ProfileFragment extends Fragment {
             });
         } catch (Exception e) {
             System.out.println(e.toString());
-            DynamicToast.makeWarning(Objects.requireNonNull(getContext()), "You are not connected").show();
+            DynamicToast.makeWarning(requireContext(), "You are not connected").show();
         }
     }
 
@@ -287,7 +287,7 @@ public class ProfileFragment extends Fragment {
                                 public void onSuccess(
                                         UploadTask.TaskSnapshot taskSnapshot) {
                                     progressDialog.dismiss();
-                                    DynamicToast.makeSuccess(Objects.requireNonNull(getContext()),
+                                    DynamicToast.makeSuccess(requireContext(),
                                             "Image Uploaded!!",
                                             Toast.LENGTH_SHORT)
                                             .show();
@@ -305,7 +305,7 @@ public class ProfileFragment extends Fragment {
 
                             // Error, Image not uploaded
                             progressDialog.dismiss();
-                            DynamicToast.makeError(Objects.requireNonNull(getContext()), "Failed " + e.getMessage()).show();
+                            DynamicToast.makeError(requireContext(), "Failed " + e.getMessage()).show();
                         }
                     })
                     .addOnProgressListener(

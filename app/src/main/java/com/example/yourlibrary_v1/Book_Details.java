@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.More.Utils;
 import com.example.yourlibrary_v1.log.login;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,41 +82,42 @@ public class Book_Details extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Book book = dataSnapshot.getValue(Book.class);
-                assert book != null;
+//                Book book = dataSnapshot.getValue(Book.class);
+//                assert book != null;
+                if (dataSnapshot.child("title").getValue() != null) {
+                    Title.setText(dataSnapshot.child("title").getValue().toString());
 
-                Title.setText(book.getTitle());
+                    // in class Utils we have function generateCategory
+                    // this function need receive a string (category in initial form)
+                    // and that return correct form
 
-                // in class Utils we have function generateCategory
-                // this function need receive a string (category in initial form)
-                // and that return correct form
+                    // create initial object
+                    Utils utils = new Utils();
+                    // cal function for category
+                    String author_string = utils.formatCategory(
+                            // here we put our string which receive from firebase
+                            dataSnapshot.child("author").getValue().toString()
+                    );
+                    author.setText(author_string);
 
-                // create initial object
-                Utils utils = new Utils();
-                // cal function for category
-                String author_string = utils.formatCategory(
-                        // here we put our string which receive from firebase
-                        book.getAuthor()
-                );
-                author.setText(author_string);
-
-                category.setText(new Utils().formatCategory(Objects.requireNonNull(dataSnapshot.child("categories").getValue().toString())));
+                    category.setText(new Utils().formatCategory(Objects.requireNonNull(dataSnapshot.child("categories").getValue().toString())));
 
 
-                // this line of code set the title for activity
-                Objects.requireNonNull(getSupportActionBar()).setTitle(book.getTitle());
+                    // this line of code set the title for activity
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(dataSnapshot.child("title").getValue().toString());
 
-                String url = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
-                url = addChar(url);
-                // use Glide for generate the image from url
-                Glide.with(getApplicationContext())
-                        .load(url)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(image);
-                description.setText(book.getDescription());
-                release.setText(Objects.requireNonNull(dataSnapshot.child("date_publisher").getValue()).toString());
-                String rating_converted = "Rating: " + dataSnapshot.child("rating").getValue();
-                rating.setText(rating_converted);
+                    String url = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                    url = addChar(url);
+                    // use Glide for generate the image from url
+                    Glide.with(getApplicationContext())
+                            .load(url)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(image);
+                    description.setText(dataSnapshot.child("description").getValue().toString());
+                    release.setText(Objects.requireNonNull(dataSnapshot.child("date_publisher").getValue()).toString());
+                    String rating_converted = "Rating: " + dataSnapshot.child("rating").getValue();
+                    rating.setText(rating_converted);
+                }
             }
 
             @Override
@@ -234,6 +234,7 @@ public class Book_Details extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        finish();
         return true;
     }
 
@@ -254,6 +255,12 @@ public class Book_Details extends AppCompatActivity {
         firebaseDatabase.child(book_id).setValue(System.currentTimeMillis());
         // System.currentTimeMillis() --  return a time, but in a format like a timestamp
         DynamicToast.makeSuccess(getApplicationContext(), "Add with success in favorite list!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("I was called .....");
     }
 
     private void addToReadList(String bok_id) {
