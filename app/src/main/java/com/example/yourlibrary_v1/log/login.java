@@ -128,6 +128,10 @@ public class login extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        if (FirebaseAuth.getInstance().getUid() == null) {
+            finish();
+            startActivity(new Intent(login.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
         return true;
     }
 

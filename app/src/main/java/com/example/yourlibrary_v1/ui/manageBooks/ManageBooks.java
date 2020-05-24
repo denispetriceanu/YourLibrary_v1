@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourlibrary_v1.More.Book;
 import com.example.yourlibrary_v1.R;
+import com.example.yourlibrary_v1.log.login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +36,9 @@ public class ManageBooks extends Fragment {
 
     @Override
     public void onStart() {
+        if (FirebaseAuth.getInstance().getUid() == null) {
+            startActivity(new Intent(getActivity(), login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
         getBooks();
         super.onStart();
     }

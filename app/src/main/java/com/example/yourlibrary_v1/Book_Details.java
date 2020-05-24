@@ -36,6 +36,15 @@ public class Book_Details extends AppCompatActivity {
     private String uid;
 
     @Override
+    protected void onStart() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            DynamicToast.makeError(getApplicationContext(), "Must login!").show();
+            startActivity(new Intent(Book_Details.this, login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        super.onStart();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book__details);
